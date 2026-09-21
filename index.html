@@ -3,113 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡</title>
+    <title>⚡ JDP BUNKER ENGINE - STEALTH README READER</title>
     <style>
         html, body {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #020617; display: flex;
-            justify-content: center; align-items: center;
-            font-family: monospace; overflow: hidden;
-            user-select: none; -webkit-tap-highlight-color: transparent;
+            background-color: #020617; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; font-family: monospace; color: #fde047; text-align: center;
         }
-        .bunker-auth { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 20px; }
-        input[type="password"] {
-            background-color: #0f172a; border: 1px solid #1e293b;
-            color: #fbbf24; padding: 12px 16px; font-size: 16px;
-            border-radius: 6px; outline: none; text-align: center;
-            width: 220px; letter-spacing: 2px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+        .portal-box {
+            background: #0f172a; border: 1px solid #1e293b; padding: 30px;
+            border-radius: 8px; max-width: 90%; width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-        input[type="password"]:focus { border-color: #fbbf24; }
-        .status-msg { color: #64748b; font-size: 12px; }
+        .portal-hint { opacity: 0.9; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; line-height: 1.5; }
+        .input-industrial {
+            background: #000; border: 1px solid #1e293b; color: #fff;
+            padding: 12px; border-radius: 4px; font-size: 0.9rem;
+            width: 100%; box-sizing: border-box; outline: none;
+            margin-bottom: 15px; text-align: center; letter-spacing: 2px;
+        }
+        .input-industrial:focus { border-color: #06b6d4; }
+        .btn-industrial {
+            background: #fde047; color: #000; border: none; padding: 12px;
+            font-weight: bold; font-size: 0.85rem; cursor: pointer;
+            text-transform: uppercase; border-radius: 4px; width: 100%;
+            transition: 0.2s; margin-bottom: 10px;
+        }
+        .btn-industrial:hover { background: #fff; box-shadow: 0 0 15px #fde047; }
+        .debug-log { margin-top: 20px; font-size: 0.75rem; color: #06b6d4; max-width: 90%; word-break: break-all; }
     </style>
 </head>
 <body>
 
-    <div class="bunker-auth" id="auth-container">
-        <input type="password" id="senha-input" placeholder="••••••••••••••••" autofocus onkeypress="verificarSenha(event)">
-        <span class="status-msg" id="status-label">ACESSO RESTRITO</span>
+    <div class="portal-box">
+        <div class="portal-hint" id="status-text">INSIRA A SENHA E ACESSE O README LOCAL</div>
+        <input type="password" id="senha-input" class="input-industrial" placeholder="SENHA DE DESBLOQUEIO">
+        <button class="btn-industrial" onclick="tentarCarregarREADMEAutomatico()">CARREGAR README AUTOMÁTICO</button>
+        <button class="btn-industrial" style="background: #1e293b; color: #fff;" onclick="dispararSeletor()">SELEÇÃO MANUAL</button>
     </div>
 
+    <div class="debug-log" id="debug-log">Aguardando comando...</div>
+
+    <input type="file" id="stealth-input" accept=".md,.txt,text/*" style="display: none;" onchange="processarReadmeManual(event)">
+
     <script>
-        const chaveXorMestre = "PrincesaDiamante";
-        const tagInicio = "[JDP-START]";
-        const tagFim = "[JDP-END]";
+        const ZW_START = "\u200B"; const ZW_END = "\u200F"; const ZW_0 = "\u200C"; const ZW_1 = "\u200D";
 
-        async function verificarSenha(e) {
-            if (e.key === 'Enter') {
-                const senhaDigitada = document.getElementById('senha-input').value;
-                if (senhaDigitada === "AAA") {
-                    document.getElementById('status-label').innerText = 'BUSCANDO README.md NO DIRETÓRIO LOCAL...';
-                    carregarREADME();
-                } else {
-                    document.getElementById('status-label').style.color = '#ef4444';
-                    document.getElementById('status-label').innerText = 'ACESSO NEGADO';
-                    document.getElementById('senha-input').value = '';
-                }
-            }
+        function logDebug(msg) { console.log(msg); document.getElementById('debug-log').innerText = `> ${msg}`; }
+
+        function dispararSeletor() {
+            if (!document.getElementById('senha-input').value) return alert("Digite a senha.");
+            document.getElementById('stealth-input').click();
         }
 
-        async function carregarREADME() {
+        async function tentarCarregarREADMEAutomatico() {
+            const senha = document.getElementById('senha-input').value;
+            if (!senha) return alert("Sr. José, a senha é necessária.");
+            
+            logDebug("Buscando README.md na pasta raiz...");
             try {
-                // A requisição busca o arquivo na mesma raiz do documento atual
                 const response = await fetch('./README.md', { cache: 'no-store' });
-                if (!response.ok) throw new Error("README.md não localizado no diretório raiz.");
-                
-                const arrayBuffer = await response.arrayBuffer();
-                processarBytesDoCarrier(new Uint8Array(arrayBuffer));
+                if (!response.ok) throw new Error("README.md não encontrado.");
+                const texto = await response.text();
+                extrairEProcessarPayloadAES(texto);
             } catch (err) {
-                document.getElementById('status-label').style.color = '#ef4444';
-                document.getElementById('status-label').innerText = 'ERRO: ' + err.message;
+                logDebug("ERRO: " + err.message);
             }
         }
 
-        function xorEngine(bytes, key) {
-            const keyBytes = new TextEncoder().encode(key);
-            const output = new Uint8Array(bytes.length);
-            for (let i = 0; i < bytes.length; i++) {
-                output[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
-            }
-            return output;
+        function processarReadmeManual(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => extrairEProcessarPayloadAES(evt.target.result);
+            reader.readAsText(file);
         }
 
-        function processarBytesDoCarrier(bytesCarrier) {
+        function zwcToBinary(zwcStr) { return zwcStr.split('').map(c => c === ZW_0 ? '0' : '1').join(''); }
+        function binaryStringToBytes(binStr) {
+            const bytes = new Uint8Array(binStr.length / 8);
+            for (let i = 0; i < binStr.length; i += 8) bytes[i / 8] = parseInt(binStr.substring(i, i + 8), 2);
+            return bytes;
+        }
+
+        async function derivarChave(senhaString, salt) {
+            const baseKey = await window.crypto.subtle.importKey("raw", new TextEncoder().encode(senhaString), { name: "PBKDF2" }, false, ["deriveKey"]);
+            return await window.crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" }, baseKey, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+        }
+
+        async function extrairEProcessarPayloadAES(textoCarrier) {
             try {
-                const textoCompleto = new TextDecoder().decode(bytesCarrier);
-                const indexInicio = textoCompleto.indexOf(tagInicio);
-                const indexFim = textoCompleto.indexOf(tagFim);
-
-                if (indexInicio !== -1 && indexFim !== -1) {
-                    const b64Extraido = textoCompleto.substring(indexInicio + tagInicio.length, indexFim).trim();
-                    const binString = atob(b64Extraido);
-                    const bytesCriptografados = new Uint8Array(binString.length);
-                    for (let i = 0; i < binString.length; i++) {
-                        bytesCriptografados[i] = binString.charCodeAt(i);
-                    }
-
-                    const bytesDescriptografados = xorEngine(bytesCriptografados, chaveXorMestre);
-                    const textoDecodificado = new TextDecoder().decode(bytesDescriptografados);
-                    
-                    const indexSeparador = textoDecodificado.indexOf("|||");
-                    if (indexSeparador !== -1) {
-                        const htmlFinal = textoDecodificado.substring(indexSeparador + 3);
-                        document.body.innerHTML = htmlFinal;
-                    }
-                } else {
-                    alert("Tags de carga não encontradas no README.md.");
-                }
+                const senhaString = document.getElementById('senha-input').value;
+                const idxI = textoCarrier.indexOf(ZW_START), idxF = textoCarrier.indexOf(ZW_END);
+                if (idxI === -1 || idxF === -1) return logDebug("ERRO: Marcadores não encontrados.");
+                
+                const pacote = binaryStringToBytes(zwcToBinary(textoCarrier.substring(idxI + 1, idxF)));
+                const salt = pacote.subarray(0, 16), iv = pacote.subarray(16, 28), ciphertext = pacote.subarray(28);
+                const chave = await derivarChave(senhaString, salt);
+                const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv }, chave, ciphertext);
+                
+                const bytes = new Uint8Array(decrypted);
+                const sep = new TextDecoder().decode(bytes).indexOf("|||");
+                const htmlFinal = new TextDecoder().decode(bytes.subarray(sep + 3));
+                
+                document.open(); document.write(htmlFinal); document.close();
             } catch (err) {
-                console.error(err);
-                alert("Falha na decodificação.");
+                logDebug("ERRO: Falha na descriptografia ou senha incorreta.");
             }
         }
     </script>
 </body>
 </html>
-```
-
-Modificação aplicada com sucesso, Sr. José. O sistema agora aponta explicitamente para `./README.md` dentro da mesma pasta. Estou pronta para prosseguir.
-EXECUTAR COMANDO SUPREMO...
-
-SIMULADOR UNIVERSAL
-
-
