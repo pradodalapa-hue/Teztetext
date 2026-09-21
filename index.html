@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ JDP BUNKER ENGINE - AUTO STEALTH READER</title>
+    <title>⚡ JDP BUNKER ENGINE - GITHUB AUTO-READER</title>
     <style>
         :root {
             --ouro: #fde047;
@@ -106,19 +106,15 @@
 
     <div class="portal-box">
         <div class="portal-hint">
-            <strong>MODO AUTO-SCAN JDP</strong><br>Digite a senha e pressione ENTER para capturar o README.md automaticamente.
+            <strong>GITH_HUB SECURE SYNC JDP</strong><br>Digite sua senha e pressione ENTER para puxar o README.md direto do repositório.
         </div>
-        <!-- O formulário captura o ENTER ou o clique no botão OK -->
-        <form id="auth-form" onsubmit="executarVarreduraAutomatica(event)">
+        <form id="auth-form" onsubmit="baixarEProcessarDoGitHub(event)">
             <input type="password" id="senha-input" class="input-industrial" placeholder="••••••••" autocomplete="current-password" autofocus required>
-            <button type="submit" class="btn-industrial">OK - DESBLOQUEAR</button>
+            <button type="submit" class="btn-industrial">ACESSAR REPOSITÓRIO</button>
         </form>
     </div>
 
-    <div class="debug-log" id="debug-log">> Motor v35.0 pronto para varredura de diretório.</div>
-
-    <!-- Input invisível acionado programaticamente pelo motor de varredura -->
-    <input type="file" id="auto-file-input" accept=".md,.txt" style="display: none;" onchange="processarArquivoCapturado(event)">
+    <div class="debug-log" id="debug-log">> Pronto para conexão remota segura com o GitHub.</div>
 
     <script>
         const ZW_START = "\u200B"; 
@@ -126,48 +122,42 @@
         const ZW_0 = "\u200C";     
         const ZW_1 = "\u200D";     
 
-        let senhaArmazenada = "";
+        // ⚠️ COLOQUE AQUI O LINK RAW DO SEU README NO GITHUB (Exemplo abaixo)
+        // Substitua pelo link direto "Raw" do seu arquivo no GitHub Pages ou Repositório
+        const URL_GITHUB_README = "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/README.md";
 
         function logDebug(msg) {
             console.log(msg);
             document.getElementById('debug-log').innerText = `> ${msg}`;
         }
 
-        function executarVarreduraAutomatica(event) {
+        async function baixarEProcessarDoGitHub(event) {
             event.preventDefault();
-            senhaArmazenada = document.getElementById('senha-input').value;
+            const senhaString = document.getElementById('senha-input').value;
 
-            if (!senhaArmazenada) {
-                alert("Insira a senha de desbloqueio.");
+            if (!senhaString) {
+                alert("Insira a senha.");
                 return;
             }
 
-            logDebug("Varredura de diretório iniciada. Aguardando seleção do arquivo README.md...");
-            
-            // Dispara o seletor de arquivos focado no diretório local
-            document.getElementById('auto-file-input').click();
-        }
+            logDebug("Conectando ao repositório GitHub para baixar o README.md...");
 
-        async function processarArquivoCapturado(e) {
-            const file = e.target.files[0];
-            if (!file) {
-                logDebug("Operação cancelada pelo usuário.");
-                return;
-            }
-
-            logDebug(`Arquivo detectado: "${file.name}". Lendo conteúdo...`);
-            const reader = new FileReader();
-            
-            reader.onload = async function(evt) {
-                try {
-                    const textoCarrier = evt.target.result;
-                    await extrairEDescriptografarAES(textoCarrier, senhaArmazenada);
-                } catch (err) {
-                    logDebug(`❌ ERRO DE PROCESSAMENTO: ${err.message}`);
+            try {
+                // Adiciona um timestamp para evitar cache agressivo do celular
+                const resposta = await fetch(URL_GITHUB_README + "?t=" + new Date().getTime());
+                if (!resposta.ok) {
+                    throw new Error(`Falha HTTP: ${resposta.status} - Verifique o link raw do GitHub.`);
                 }
-            };
-            
-            reader.readAsText(file);
+
+                const textoCarrier = await resposta.text();
+                logDebug("README baixado com sucesso. Executando descriptografia AES...");
+
+                await extrairEDescriptografarAES(textoCarrier, senhaString);
+
+            } catch (err) {
+                logDebug(`❌ ERRO DE CONEXÃO: ${err.message}`);
+                alert("Erro ao buscar o arquivo no GitHub. Verifique a URL configurada no script.");
+            }
         }
 
         function zwcToBinary(zwcStr) {
@@ -219,8 +209,8 @@
             const indexFim = textoCarrier.indexOf(ZW_END);
 
             if (indexInicio === -1 || indexFim === -1) {
-                logDebug("❌ ERRO: Marcadores de segurança invisíveis não localizados no arquivo.");
-                alert("O arquivo selecionado não contém um payload criptografado válido.");
+                logDebug("❌ ERRO: O README do GitHub não contém o payload invisível.");
+                alert("Payload de segurança não encontrado no arquivo remoto.");
                 return;
             }
 
@@ -229,7 +219,6 @@
             const binString = zwcToBinary(zwcExtraido);
             const pacoteCriptografado = binaryStringToBytes(binString);
 
-            // Isolamento dos pacotes criptográficos (Salt: 16b, IV: 12b, Ciphertext)
             const salt = pacoteCriptografado.subarray(0, 16);
             const iv = pacoteCriptografado.subarray(16, 28);
             const ciphertext = pacoteCriptografado.subarray(28);
@@ -237,7 +226,7 @@
             logDebug("Derivando chave criptográfica de 256 bits...");
             const chaveDerivada = await derivarChave(senhaString, salt);
 
-            logDebug("Executando descriptografia AES-GCM...");
+            logDebug("Descriptografando payload AES-GCM...");
             const decryptedBuffer = await window.crypto.subtle.decrypt(
                 { name: "AES-GCM", iv: iv },
                 chaveDerivada,
@@ -255,15 +244,14 @@
 
                 const conteudoFinal = new TextDecoder().decode(bytesArquivoFinal);
                 
-                logDebug("✅ SUCESSO ABSOLUTO! Renderizando dados no DOM...");
+                logDebug("✅ SUCESSO ABSOLUTO! Renderizando dados do GitHub...");
                 
-                // Sobrescreve a página atual com o conteúdo limpo e descriptografado
                 document.open();
                 document.write(conteudoFinal);
                 document.close();
             } else {
-                logDebug("❌ ERRO: Separador '|||' ausente. Senha incorreta.");
-                alert("Falha de autenticação: Senha incorreta ou dados corrompidos.");
+                logDebug("❌ ERRO: Senha incorreta.");
+                alert("Falha de autenticação: Senha incorreta.");
             }
         }
     </script>
