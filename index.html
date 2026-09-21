@@ -5,23 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡</title>
     <style>
-        /* Tela preta absoluta e limpa, exatamente igual à versão de fotos */
+        /* Tela preta absoluta com design industrial/discreto */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             background-color: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: monospace;
             overflow: hidden;
-            cursor: pointer;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Caixa de acesso discreta */
+        .bunker-auth {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+        }
+
+        input[type="password"] {
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            color: #fbbf24; /* Letras cor de ouro */
+            padding: 12px 16px;
+            font-size: 16px;
+            border-radius: 6px;
+            outline: none;
+            text-align: center;
+            width: 220px;
+            letter-spacing: 2px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        input[type="password"]:focus {
+            border-color: #fbbf24;
+        }
+
+        .status-msg {
+            color: #64748b;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Input de arquivo oculto acionado por toque na tela -->
+    <div class="bunker-auth" id="auth-container">
+        <input type="password" id="senha-input" placeholder="••••••••••••••••" autofocus onkeypress="verificarSenha(event)">
+        <span class="status-msg" id="status-label">ACESSO RESTRITO</span>
+    </div>
+
+    <!-- Input de arquivo oculto acionado somente após senha correta -->
     <input type="file" id="stealth-input" accept=".md,.txt,image/*,*" style="display: none;" onchange="processarArquivoManual(event)">
 
     <script>
@@ -29,7 +69,29 @@
         const tagInicio = "[JDP-START]";
         const tagFim = "[JDP-END]";
 
-        // CIFRA XOR BINÁRIA DE ALTA PERFORMANCE (Mesma da versão de fotos)
+        // Verifica se a senha digitada confere com a chave mestre
+        function verificarSenha(e) {
+            if (e.key === 'Enter') {
+                const senhaDigitada = document.getElementById('senha-input').value;
+                
+                if (senhaDigitada === chaveXorMestre) {
+                    document.getElementById('status-label').style.color = '#fbbf24';
+                    document.getElementById('status-label').innerText = 'AUTORIZADO. SELECIONE O ARQUIVO...';
+                    
+                    // Pequeno delay visual e dispara o seletor de arquivos do README/Carrier
+                    setTimeout(() => {
+                        document.getElementById('auth-container').style.display = 'none';
+                        document.getElementById('stealth-input').click();
+                    }, 400);
+                } else {
+                    document.getElementById('status-label').style.color = '#ef4444';
+                    document.getElementById('status-label').innerText = 'ACESSO NEGADO';
+                    document.getElementById('senha-input').value = '';
+                }
+            }
+        }
+
+        // CIFRA XOR BINÁRIA DE ALTA PERFORMANCE
         function xorEngine(bytes, key) {
             const keyBytes = new TextEncoder().encode(key);
             const output = new Uint8Array(bytes.length);
@@ -39,12 +101,7 @@
             return output;
         }
 
-        // GATILHO DE TOQUE IMEDIATO: Abre o seletor de arquivos do celular ao tocar na tela
-        document.body.addEventListener('click', () => {
-            document.getElementById('stealth-input').click();
-        });
-
-        // PROCESSAMENTO DO ARQUIVO SELECIONADO
+        // PROCESSAMENTO DO ARQUIVO SELECIONADO (README ou Carrier)
         function processarArquivoManual(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -59,8 +116,8 @@
         // DESCRIPTOGRAFIA E SUBSTITUIÇÃO DO DOM EM TEMPO REAL
         function processarBytesDoCarrier(bytesCarrier) {
             try {
-                // Varredura de busca de tags no final do arquivo carregado
-                const textoBytes = new TextDecoder().decode(bytesCarrier.subarray(Math.max(0, bytesCarrier.length - 15000000)));
+                // Varredura de busca de tags no arquivo carregado (README.md ou imagem/carrier)
+                const textoBytes = new TextDecoder().decode(bytesCarrier.subarray(Math.max(0, bytesCarrier.length - 20000000)));
                 
                 const indexInicio = textoBytes.indexOf(tagInicio);
                 const indexFim = textoBytes.indexOf(tagFim);
@@ -74,7 +131,7 @@
                         bytesCriptografados[i] = binString.charCodeAt(i);
                     }
 
-                    // Descriptografa usando a chave mestre exata "PrincesaDiamante"
+                    // Descriptografa usando a chave mestre validada
                     const bytesDescriptografados = xorEngine(bytesCriptografados, chaveXorMestre);
 
                     // Localiza o separador de cabeçalho
@@ -93,10 +150,12 @@
                         document.write(htmlFinal);
                         document.close();
                     }
+                } else {
+                    alert("Tags de carga não encontradas no arquivo selecionado.");
                 }
             } catch (err) {
-                // Tratamento silencioso para manter integridade operacional
-                console.error("Erro no processamento stealth:", err);
+                console.error("Erro no processamento:", err);
+                alert("Erro ao processar o arquivo.");
             }
         }
     </script>
