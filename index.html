@@ -3,255 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ JDP BUNKER ENGINE - GITHUB AUTO-READER</title>
+    <title>⚡</title>
     <style>
-        :root {
-            --ouro: #fde047;
-            --bg: #020617;
-            --panel: #0f172a;
-            --cyan: #06b6d4;
-            --border: #1e293b;
-        }
-
+        /* Tela preta absoluta e limpa, exatamente igual à versão de fotos */
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--bg);
+            background-color: #020617;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Orbitron', monospace;
-            color: var(--ouro);
-            text-align: center;
-        }
-
-        .portal-box {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 35px;
-            border-radius: 8px;
-            max-width: 90%;
-            width: 420px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
-        }
-
-        .portal-hint {
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            color: #94a3b8;
-        }
-
-        .portal-hint strong {
-            color: var(--ouro);
-        }
-
-        .input-industrial {
-            background: #000;
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 14px;
-            border-radius: 4px;
-            font-size: 1rem;
-            width: 100%;
-            box-sizing: border-box;
-            outline: none;
-            margin-bottom: 15px;
-            text-align: center;
-            letter-spacing: 4px;
-        }
-
-        .input-industrial:focus {
-            border-color: var(--cyan);
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
-        }
-
-        .btn-industrial {
-            background: var(--ouro);
-            color: #000;
-            border: none;
-            padding: 14px;
-            font-weight: bold;
-            font-size: 0.85rem;
             cursor: pointer;
-            text-transform: uppercase;
-            border-radius: 4px;
-            width: 100%;
-            transition: 0.2s;
-            letter-spacing: 1px;
-        }
-
-        .btn-industrial:hover {
-            background: #fff;
-            box-shadow: 0 0 15px var(--ouro);
-        }
-
-        .debug-log {
-            margin-top: 25px;
-            font-size: 0.7rem;
-            color: var(--cyan);
-            max-width: 85%;
-            word-break: break-all;
-            opacity: 0.8;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
 <body>
 
-    <div class="portal-box">
-        <div class="portal-hint">
-            <strong>GITH_HUB SECURE SYNC JDP</strong><br>Digite sua senha e pressione ENTER para puxar o README.md direto do repositório.
-        </div>
-        <form id="auth-form" onsubmit="baixarEProcessarDoGitHub(event)">
-            <input type="password" id="senha-input" class="input-industrial" placeholder="••••••••" autocomplete="current-password" autofocus required>
-            <button type="submit" class="btn-industrial">ACESSAR REPOSITÓRIO</button>
-        </form>
-    </div>
-
-    <div class="debug-log" id="debug-log">> Pronto para conexão remota segura com o GitHub.</div>
+    <!-- Input de arquivo oculto acionado por toque na tela -->
+    <input type="file" id="stealth-input" accept=".md,.txt,image/*,*" style="display: none;" onchange="processarArquivoManual(event)">
 
     <script>
-        const ZW_START = "\u200B"; 
-        const ZW_END = "\u200F";   
-        const ZW_0 = "\u200C";     
-        const ZW_1 = "\u200D";     
+        const chaveXorMestre = "PrincesaDiamante";
+        const tagInicio = "[JDP-START]";
+        const tagFim = "[JDP-END]";
 
-        // ⚠️ COLOQUE AQUI O LINK RAW DO SEU README NO GITHUB (Exemplo abaixo)
-        // Substitua pelo link direto "Raw" do seu arquivo no GitHub Pages ou Repositório
-        const URL_GITHUB_README = "https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/README.md";
-
-        function logDebug(msg) {
-            console.log(msg);
-            document.getElementById('debug-log').innerText = `> ${msg}`;
+        // CIFRA XOR BINÁRIA DE ALTA PERFORMANCE (Mesma da versão de fotos)
+        function xorEngine(bytes, key) {
+            const keyBytes = new TextEncoder().encode(key);
+            const output = new Uint8Array(bytes.length);
+            for (let i = 0; i < bytes.length; i++) {
+                output[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+            }
+            return output;
         }
 
-        async function baixarEProcessarDoGitHub(event) {
-            event.preventDefault();
-            const senhaString = document.getElementById('senha-input').value;
+        // GATILHO DE TOQUE IMEDIATO: Abre o seletor de arquivos do celular ao tocar na tela
+        document.body.addEventListener('click', () => {
+            document.getElementById('stealth-input').click();
+        });
 
-            if (!senhaString) {
-                alert("Insira a senha.");
-                return;
-            }
+        // PROCESSAMENTO DO ARQUIVO SELECIONADO
+        function processarArquivoManual(e) {
+            const file = e.target.files[0];
+            if (!file) return;
 
-            logDebug("Conectando ao repositório GitHub para baixar o README.md...");
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                processarBytesDoCarrier(new Uint8Array(evt.target.result));
+            };
+            reader.readAsArrayBuffer(file);
+        }
 
+        // DESCRIPTOGRAFIA E SUBSTITUIÇÃO DO DOM EM TEMPO REAL
+        function processarBytesDoCarrier(bytesCarrier) {
             try {
-                // Adiciona um timestamp para evitar cache agressivo do celular
-                const resposta = await fetch(URL_GITHUB_README + "?t=" + new Date().getTime());
-                if (!resposta.ok) {
-                    throw new Error(`Falha HTTP: ${resposta.status} - Verifique o link raw do GitHub.`);
+                // Varredura de busca de tags no final do arquivo carregado
+                const textoBytes = new TextDecoder().decode(bytesCarrier.subarray(Math.max(0, bytesCarrier.length - 15000000)));
+                
+                const indexInicio = textoBytes.indexOf(tagInicio);
+                const indexFim = textoBytes.indexOf(tagFim);
+
+                if (indexInicio !== -1 && indexFim !== -1) {
+                    const b64Extraido = textoBytes.substring(indexInicio + tagInicio.length, indexFim);
+                    
+                    const binString = atob(b64Extraido.trim());
+                    const bytesCriptografados = new Uint8Array(binString.length);
+                    for (let i = 0; i < binString.length; i++) {
+                        bytesCriptografados[i] = binString.charCodeAt(i);
+                    }
+
+                    // Descriptografa usando a chave mestre exata "PrincesaDiamante"
+                    const bytesDescriptografados = xorEngine(bytesCriptografados, chaveXorMestre);
+
+                    // Localiza o separador de cabeçalho
+                    const textoDecodificadoParcial = new TextDecoder().decode(bytesDescriptografados.subarray(0, 2000));
+                    const indexSeparador = textoDecodificadoParcial.indexOf("|||");
+
+                    if (indexSeparador !== -1) {
+                        const cabecalhoTexto = textoDecodificadoParcial.substring(0, indexSeparador);
+                        const tamanhoCabecalhoBytes = new TextEncoder().encode(cabecalhoTexto + "|||").length;
+                        const bytesArquivoFinal = bytesDescriptografados.subarray(tamanhoCabecalhoBytes);
+
+                        const htmlFinal = new TextDecoder().decode(bytesArquivoFinal);
+                        
+                        // Sobrescreve o DOM instantaneamente com a interface decodificada
+                        document.open();
+                        document.write(htmlFinal);
+                        document.close();
+                    }
                 }
-
-                const textoCarrier = await resposta.text();
-                logDebug("README baixado com sucesso. Executando descriptografia AES...");
-
-                await extrairEDescriptografarAES(textoCarrier, senhaString);
-
             } catch (err) {
-                logDebug(`❌ ERRO DE CONEXÃO: ${err.message}`);
-                alert("Erro ao buscar o arquivo no GitHub. Verifique a URL configurada no script.");
-            }
-        }
-
-        function zwcToBinary(zwcStr) {
-            let bin = "";
-            for (let i = 0; i < zwcStr.length; i++) {
-                if (zwcStr[i] === ZW_0) bin += '0';
-                else if (zwcStr[i] === ZW_1) bin += '1';
-            }
-            return bin;
-        }
-
-        function binaryStringToBytes(binStr) {
-            const len = binStr.length;
-            const bytes = new Uint8Array(len / 8);
-            for (let i = 0; i < len; i += 8) {
-                bytes[i / 8] = parseInt(binStr.substring(i, i + 8), 2);
-            }
-            return bytes;
-        }
-
-        async function derivarChave(senhaString, salt) {
-            const encoder = new TextEncoder();
-            const senhaBytes = encoder.encode(senhaString);
-            
-            const importChaveMestra = await window.crypto.subtle.importKey(
-                "raw",
-                senhaBytes,
-                { name: "PBKDF2" },
-                false,
-                ["deriveKey"]
-            );
-
-            return await window.crypto.subtle.deriveKey(
-                {
-                    name: "PBKDF2",
-                    salt: salt,
-                    iterations: 100000, 
-                    hash: "SHA-256"
-                },
-                importChaveMestra,
-                { name: "AES-GCM", length: 256 },
-                false,
-                ["decrypt"]
-            );
-        }
-
-        async function extrairEDescriptografarAES(textoCarrier, senhaString) {
-            const indexInicio = textoCarrier.indexOf(ZW_START);
-            const indexFim = textoCarrier.indexOf(ZW_END);
-
-            if (indexInicio === -1 || indexFim === -1) {
-                logDebug("❌ ERRO: O README do GitHub não contém o payload invisível.");
-                alert("Payload de segurança não encontrado no arquivo remoto.");
-                return;
-            }
-
-            logDebug("Marcadores localizados. Reconstruindo stream binário...");
-            const zwcExtraido = textoCarrier.substring(indexInicio + ZW_START.length, indexFim);
-            const binString = zwcToBinary(zwcExtraido);
-            const pacoteCriptografado = binaryStringToBytes(binString);
-
-            const salt = pacoteCriptografado.subarray(0, 16);
-            const iv = pacoteCriptografado.subarray(16, 28);
-            const ciphertext = pacoteCriptografado.subarray(28);
-
-            logDebug("Derivando chave criptográfica de 256 bits...");
-            const chaveDerivada = await derivarChave(senhaString, salt);
-
-            logDebug("Descriptografando payload AES-GCM...");
-            const decryptedBuffer = await window.crypto.subtle.decrypt(
-                { name: "AES-GCM", iv: iv },
-                chaveDerivada,
-                ciphertext
-            );
-
-            const bytesDescriptografados = new Uint8Array(decryptedBuffer);
-            const textoDecodificadoParcial = new TextDecoder().decode(bytesDescriptografados.subarray(0, 2000));
-            const indexSeparador = textoDecodificadoParcial.indexOf("|||");
-
-            if (indexSeparador !== -1) {
-                const cabecalhoTexto = textoDecodificadoParcial.substring(0, indexSeparador);
-                const tamanhoCabecalhoBytes = new TextEncoder().encode(cabecalhoTexto + "|||").length;
-                const bytesArquivoFinal = bytesDescriptografados.subarray(tamanhoCabecalhoBytes);
-
-                const conteudoFinal = new TextDecoder().decode(bytesArquivoFinal);
-                
-                logDebug("✅ SUCESSO ABSOLUTO! Renderizando dados do GitHub...");
-                
-                document.open();
-                document.write(conteudoFinal);
-                document.close();
-            } else {
-                logDebug("❌ ERRO: Senha incorreta.");
-                alert("Falha de autenticação: Senha incorreta.");
+                // Tratamento silencioso para manter integridade operacional
+                console.error("Erro no processamento stealth:", err);
             }
         }
     </script>
