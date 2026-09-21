@@ -3,62 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ JDP BUNKER ENGINE - STEALTH README READER</title>
+    <title>⚡ JDP BUNKER ENGINE - AUTO STEALTH READER</title>
     <style>
+        :root {
+            --ouro: #fde047;
+            --bg: #020617;
+            --panel: #0f172a;
+            --cyan: #06b6d4;
+            --border: #1e293b;
+        }
+
         html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #020617;
+            background-color: var(--bg);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-family: monospace;
-            color: #fde047;
+            font-family: 'Orbitron', monospace;
+            color: var(--ouro);
             text-align: center;
         }
+
         .portal-box {
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            padding: 30px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 35px;
             border-radius: 8px;
             max-width: 90%;
-            width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 420px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
         }
+
         .portal-hint {
-            opacity: 0.9;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
+            color: #94a3b8;
         }
+
+        .portal-hint strong {
+            color: var(--ouro);
+        }
+
         .input-industrial {
             background: #000;
-            border: 1px solid #1e293b;
+            border: 1px solid var(--border);
             color: #fff;
-            padding: 12px;
+            padding: 14px;
             border-radius: 4px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             width: 100%;
             box-sizing: border-box;
             outline: none;
             margin-bottom: 15px;
             text-align: center;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
         }
+
         .input-industrial:focus {
-            border-color: #06b6d4;
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
         }
+
         .btn-industrial {
-            background: #fde047;
+            background: var(--ouro);
             color: #000;
             border: none;
-            padding: 12px;
+            padding: 14px;
             font-weight: bold;
             font-size: 0.85rem;
             cursor: pointer;
@@ -66,52 +84,90 @@
             border-radius: 4px;
             width: 100%;
             transition: 0.2s;
+            letter-spacing: 1px;
         }
+
         .btn-industrial:hover {
             background: #fff;
-            box-shadow: 0 0 15px #fde047;
+            box-shadow: 0 0 15px var(--ouro);
         }
+
         .debug-log {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #06b6d4;
-            max-width: 90%;
+            margin-top: 25px;
+            font-size: 0.7rem;
+            color: var(--cyan);
+            max-width: 85%;
             word-break: break-all;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
 
     <div class="portal-box">
-        <div class="portal-hint" id="status-text">INSIRA A SENHA E SELECIONE O README BLINDADO</div>
-        <input type="password" id="senha-input" class="input-industrial" placeholder="SENHA DE DESBLOQUEIO">
-        <button class="btn-industrial" onclick="dispararSeletor()">SELECIONAR README</button>
+        <div class="portal-hint">
+            <strong>MODO AUTO-SCAN JDP</strong><br>Digite a senha e pressione ENTER para capturar o README.md automaticamente.
+        </div>
+        <!-- O formulário captura o ENTER ou o clique no botão OK -->
+        <form id="auth-form" onsubmit="executarVarreduraAutomatica(event)">
+            <input type="password" id="senha-input" class="input-industrial" placeholder="••••••••" autocomplete="current-password" autofocus required>
+            <button type="submit" class="btn-industrial">OK - DESBLOQUEAR</button>
+        </form>
     </div>
 
-    <div class="debug-log" id="debug-log">Aguardando arquivo...</div>
+    <div class="debug-log" id="debug-log">> Motor v35.0 pronto para varredura de diretório.</div>
 
-    <!-- Input oculto para carregar o arquivo -->
-    <input type="file" id="stealth-input" accept=".md,.txt,text/*" style="display: none;" onchange="processarReadmeManual(event)">
+    <!-- Input invisível acionado programaticamente pelo motor de varredura -->
+    <input type="file" id="auto-file-input" accept=".md,.txt" style="display: none;" onchange="processarArquivoCapturado(event)">
 
     <script>
-        // Marcadores invisíveis de controle (Zero-Width Characters)
         const ZW_START = "\u200B"; 
         const ZW_END = "\u200F";   
         const ZW_0 = "\u200C";     
         const ZW_1 = "\u200D";     
+
+        let senhaArmazenada = "";
 
         function logDebug(msg) {
             console.log(msg);
             document.getElementById('debug-log').innerText = `> ${msg}`;
         }
 
-        function dispararSeletor() {
-            const senha = document.getElementById('senha-input').value;
-            if (!senha) {
-                alert("Digite a senha primeiro, Engenheiro.");
+        function executarVarreduraAutomatica(event) {
+            event.preventDefault();
+            senhaArmazenada = document.getElementById('senha-input').value;
+
+            if (!senhaArmazenada) {
+                alert("Insira a senha de desbloqueio.");
                 return;
             }
-            document.getElementById('stealth-input').click();
+
+            logDebug("Varredura de diretório iniciada. Aguardando seleção do arquivo README.md...");
+            
+            // Dispara o seletor de arquivos focado no diretório local
+            document.getElementById('auto-file-input').click();
+        }
+
+        async function processarArquivoCapturado(e) {
+            const file = e.target.files[0];
+            if (!file) {
+                logDebug("Operação cancelada pelo usuário.");
+                return;
+            }
+
+            logDebug(`Arquivo detectado: "${file.name}". Lendo conteúdo...`);
+            const reader = new FileReader();
+            
+            reader.onload = async function(evt) {
+                try {
+                    const textoCarrier = evt.target.result;
+                    await extrairEDescriptografarAES(textoCarrier, senhaArmazenada);
+                } catch (err) {
+                    logDebug(`❌ ERRO DE PROCESSAMENTO: ${err.message}`);
+                }
+            };
+            
+            reader.readAsText(file);
         }
 
         function zwcToBinary(zwcStr) {
@@ -158,78 +214,56 @@
             );
         }
 
-        function processarReadmeManual(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        async function extrairEDescriptografarAES(textoCarrier, senhaString) {
+            const indexInicio = textoCarrier.indexOf(ZW_START);
+            const indexFim = textoCarrier.indexOf(ZW_END);
 
-            logDebug(`Lendo arquivo: ${file.name}...`);
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const textoReadme = evt.target.result;
-                extrairEProcessarPayloadAES(textoReadme);
-            };
-            reader.readAsText(file);
-        }
+            if (indexInicio === -1 || indexFim === -1) {
+                logDebug("❌ ERRO: Marcadores de segurança invisíveis não localizados no arquivo.");
+                alert("O arquivo selecionado não contém um payload criptografado válido.");
+                return;
+            }
 
-        async function extrairEProcessarPayloadAES(textoCarrier) {
-            try {
-                const senhaString = document.getElementById('senha-input').value;
-                const indexInicio = textoCarrier.indexOf(ZW_START);
-                const indexFim = textoCarrier.indexOf(ZW_END);
+            logDebug("Marcadores localizados. Reconstruindo stream binário...");
+            const zwcExtraido = textoCarrier.substring(indexInicio + ZW_START.length, indexFim);
+            const binString = zwcToBinary(zwcExtraido);
+            const pacoteCriptografado = binaryStringToBytes(binString);
 
-                if (indexInicio === -1 || indexFim === -1) {
-                    logDebug("ERRO: Marcadores ZWC não encontrados neste arquivo!");
-                    document.getElementById('status-text').innerText = "[ FALHA: README SEM PAYLOAD ]";
-                    return;
-                }
+            // Isolamento dos pacotes criptográficos (Salt: 16b, IV: 12b, Ciphertext)
+            const salt = pacoteCriptografado.subarray(0, 16);
+            const iv = pacoteCriptografado.subarray(16, 28);
+            const ciphertext = pacoteCriptografado.subarray(28);
 
-                logDebug("Marcadores encontrados. Extraindo espectro invisível...");
-                const zwcExtraido = textoCarrier.substring(indexInicio + ZW_START.length, indexFim);
-                const binString = zwcToBinary(zwcExtraido);
+            logDebug("Derivando chave criptográfica de 256 bits...");
+            const chaveDerivada = await derivarChave(senhaString, salt);
+
+            logDebug("Executando descriptografia AES-GCM...");
+            const decryptedBuffer = await window.crypto.subtle.decrypt(
+                { name: "AES-GCM", iv: iv },
+                chaveDerivada,
+                ciphertext
+            );
+
+            const bytesDescriptografados = new Uint8Array(decryptedBuffer);
+            const textoDecodificadoParcial = new TextDecoder().decode(bytesDescriptografados.subarray(0, 2000));
+            const indexSeparador = textoDecodificadoParcial.indexOf("|||");
+
+            if (indexSeparador !== -1) {
+                const cabecalhoTexto = textoDecodificadoParcial.substring(0, indexSeparador);
+                const tamanhoCabecalhoBytes = new TextEncoder().encode(cabecalhoTexto + "|||").length;
+                const bytesArquivoFinal = bytesDescriptografados.subarray(tamanhoCabecalhoBytes);
+
+                const conteudoFinal = new TextDecoder().decode(bytesArquivoFinal);
                 
-                if (binString.length === 0) {
-                    logDebug("ERRO: Binário vazio extraído do ZWC.");
-                    return;
-                }
-
-                const pacoteCriptografado = binaryStringToBytes(binString);
-
-                // Separar Salt (16b), IV (12b) e Ciphertext gerados pela v35.0
-                const salt = pacoteCriptografado.subarray(0, 16);
-                const iv = pacoteCriptografado.subarray(16, 28);
-                const ciphertext = pacoteCriptografado.subarray(28);
-
-                logDebug("Derivando chave AES-GCM-256 com a senha fornecida...");
-                const chaveDerivada = await derivarChave(senhaString, salt);
-
-                logDebug("Descriptografando payload AES...");
-                const decryptedBuffer = await window.crypto.subtle.decrypt(
-                    { name: "AES-GCM", iv: iv },
-                    chaveDerivada,
-                    ciphertext
-                );
-
-                const bytesDescriptografados = new Uint8Array(decryptedBuffer);
-                const textoDecodificadoParcial = new TextDecoder().decode(bytesDescriptografados.subarray(0, 2000));
-                const indexSeparador = textoDecodificadoParcial.indexOf("|||");
-
-                if (indexSeparador !== -1) {
-                    const cabecalhoTexto = textoDecodificadoParcial.substring(0, indexSeparador);
-                    const tamanhoCabecalhoBytes = new TextEncoder().encode(cabecalhoTexto + "|||").length;
-                    const bytesArquivoFinal = bytesDescriptografados.subarray(tamanhoCabecalhoBytes);
-
-                    const htmlFinal = new TextDecoder().decode(bytesArquivoFinal);
-                    
-                    logDebug("SUCESSO ABSOLUTO! Reconstruindo DOM...");
-                    document.open();
-                    document.write(htmlFinal);
-                    document.close();
-                } else {
-                    logDebug("ERRO: Separador '|||' não localizado. Senha incorreta ou dados corrompidos.");
-                }
-            } catch (err) {
-                logDebug(`EXCEÇÃO: Senha incorreta ou falha na descriptografia.`);
-                document.getElementById('status-text').innerText = "[ SENHA INCORRETA OU FALHA ]";
+                logDebug("✅ SUCESSO ABSOLUTO! Renderizando dados no DOM...");
+                
+                // Sobrescreve a página atual com o conteúdo limpo e descriptografado
+                document.open();
+                document.write(conteudoFinal);
+                document.close();
+            } else {
+                logDebug("❌ ERRO: Separador '|||' ausente. Senha incorreta.");
+                alert("Falha de autenticação: Senha incorreta ou dados corrompidos.");
             }
         }
     </script>
