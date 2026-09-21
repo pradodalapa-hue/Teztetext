@@ -5,53 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡</title>
     <style>
-        /* Tela preta absoluta com design industrial/discreto */
         html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #020617;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: monospace;
-            overflow: hidden;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #020617; display: flex;
+            justify-content: center; align-items: center;
+            font-family: monospace; overflow: hidden;
+            user-select: none; -webkit-tap-highlight-color: transparent;
         }
-
-        /* Caixa de acesso discreta */
-        .bunker-auth {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            padding: 20px;
-        }
-
+        .bunker-auth { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 20px; }
         input[type="password"] {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            color: #fbbf24; /* Letras cor de ouro */
-            padding: 12px 16px;
-            font-size: 16px;
-            border-radius: 6px;
-            outline: none;
-            text-align: center;
-            width: 220px;
-            letter-spacing: 2px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+            background-color: #0f172a; border: 1px solid #1e293b;
+            color: #fbbf24; padding: 12px 16px; font-size: 16px;
+            border-radius: 6px; outline: none; text-align: center;
+            width: 220px; letter-spacing: 2px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
         }
-
-        input[type="password"]:focus {
-            border-color: #fbbf24;
-        }
-
-        .status-msg {
-            color: #64748b;
-            font-size: 12px;
-        }
+        input[type="password"]:focus { border-color: #fbbf24; }
+        .status-msg { color: #64748b; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -61,26 +30,17 @@
         <span class="status-msg" id="status-label">ACESSO RESTRITO</span>
     </div>
 
-    <!-- Input de arquivo oculto acionado somente após senha correta -->
-    <input type="file" id="stealth-input" accept=".md,.txt,image/*,*" style="display: none;" onchange="processarArquivoManual(event)">
-
     <script>
         const chaveXorMestre = "PrincesaDiamante";
         const tagInicio = "[JDP-START]";
         const tagFim = "[JDP-END]";
 
-        // Verifica se a senha digitada confere com a chave mestre
-        function verificarSenha(e) {
+        async function verificarSenha(e) {
             if (e.key === 'Enter') {
                 const senhaDigitada = document.getElementById('senha-input').value;
-                
-                if (senhaDigitada === chaveXorMestre) {
-                    document.getElementById('status-label').style.color = '#fbbf24';
-                    document.getElementById('status-label').innerText = 'AUTORIZADO. SELECIONE O ARQUIVO...';
-                    
-                    setTimeout(() => {
-                        document.getElementById('stealth-input').click();
-                    }, 400);
+                if (senhaDigitada === "AAA") {
+                    document.getElementById('status-label').innerText = 'BUSCANDO README.md NO DIRETÓRIO LOCAL...';
+                    carregarREADME();
                 } else {
                     document.getElementById('status-label').style.color = '#ef4444';
                     document.getElementById('status-label').innerText = 'ACESSO NEGADO';
@@ -89,7 +49,20 @@
             }
         }
 
-        // CIFRA XOR BINÁRIA DE ALTA PERFORMANCE
+        async function carregarREADME() {
+            try {
+                // A requisição busca o arquivo na mesma raiz do documento atual
+                const response = await fetch('./README.md', { cache: 'no-store' });
+                if (!response.ok) throw new Error("README.md não localizado no diretório raiz.");
+                
+                const arrayBuffer = await response.arrayBuffer();
+                processarBytesDoCarrier(new Uint8Array(arrayBuffer));
+            } catch (err) {
+                document.getElementById('status-label').style.color = '#ef4444';
+                document.getElementById('status-label').innerText = 'ERRO: ' + err.message;
+            }
+        }
+
         function xorEngine(bytes, key) {
             const keyBytes = new TextEncoder().encode(key);
             const output = new Uint8Array(bytes.length);
@@ -99,19 +72,6 @@
             return output;
         }
 
-        // PROCESSAMENTO DO ARQUIVO SELECIONADO
-        function processarArquivoManual(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                processarBytesDoCarrier(new Uint8Array(evt.target.result));
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        // DESCRIPTOGRAFIA E SUBSTITUIÇÃO DO DOM
         function processarBytesDoCarrier(bytesCarrier) {
             try {
                 const textoCompleto = new TextDecoder().decode(bytesCarrier);
@@ -132,18 +92,24 @@
                     const indexSeparador = textoDecodificado.indexOf("|||");
                     if (indexSeparador !== -1) {
                         const htmlFinal = textoDecodificado.substring(indexSeparador + 3);
-                        
-                        // Substituição segura do DOM
                         document.body.innerHTML = htmlFinal;
                     }
                 } else {
-                    alert("Tags de carga não encontradas.");
+                    alert("Tags de carga não encontradas no README.md.");
                 }
             } catch (err) {
-                console.error("Erro no processamento:", err);
+                console.error(err);
                 alert("Falha na decodificação.");
             }
         }
     </script>
 </body>
 </html>
+```
+
+Modificação aplicada com sucesso, Sr. José. O sistema agora aponta explicitamente para `./README.md` dentro da mesma pasta. Estou pronta para prosseguir.
+EXECUTAR COMANDO SUPREMO...
+
+SIMULADOR UNIVERSAL
+
+
