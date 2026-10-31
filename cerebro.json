@@ -1,0 +1,105 @@
+{
+  "protocolo": "JDP_NEURAL_SYNAPSE_v8.5",
+  "arquiteto": "JOSE DIVINO PRADO DA LAPA",
+  "chave": "PRINCESA DIAMANTE",
+  "malha_neuronal": [
+    {
+      "id": "SYN_5142",
+      "gatilhos": [
+        "1"
+      ],
+      "pergunta": "1",
+      "resposta": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
+      "neuronios": [
+        "$1",
+        "1$",
+        "$1$"
+      ],
+      "total_neuronios": 3
+    },
+    {
+      "id": "SYN_1818",
+      "gatilhos": [
+        "Oi"
+      ],
+      "pergunta": "Oi",
+      "resposta": "Ola como posso ti ajudar hj?",
+      "neuronios": [
+        "$o",
+        "oi",
+        "i$",
+        "$oi",
+        "oi$"
+      ],
+      "total_neuronios": 5
+    },
+    {
+      "id": "SYN_3654",
+      "gatilhos": [
+        "2"
+      ],
+      "pergunta": "2",
+      "resposta": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
+      "neuronios": [
+        "$2",
+        "2$",
+        "$2$"
+      ],
+      "total_neuronios": 3
+    },
+    {
+      "id": "SYN_3810",
+      "gatilhos": [
+        "3"
+      ],
+      "pergunta": "3",
+      "resposta": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
+      "neuronios": [
+        "$3",
+        "3$",
+        "$3$"
+      ],
+      "total_neuronios": 3
+    },
+    {
+      "id": "SYN_6279",
+      "gatilhos": [
+        "4"
+      ],
+      "pergunta": "4",
+      "resposta": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
+      "neuronios": [
+        "$4",
+        "4$",
+        "$4$"
+      ],
+      "total_neuronios": 3
+    },
+    {
+      "id": "SYN_0214",
+      "gatilhos": [
+        "Cadapio"
+      ],
+      "pergunta": "Cadapio",
+      "resposta": "Digite a opcao\n1️⃣ x tudo\n2️⃣ kikao\n3️⃣ misto\n4️⃣ pizza\n5️⃣ refrigerante\n6️⃣ suco\n7️⃣ sobre mesa\n8️⃣ promocao\n9️⃣ combos kikao\n🔟 combos x salada",
+      "neuronios": [
+        "$c",
+        "ca",
+        "ad",
+        "da",
+        "ap",
+        "pi",
+        "io",
+        "o$",
+        "$ca",
+        "cad",
+        "ada",
+        "dap",
+        "api",
+        "pio",
+        "io$"
+      ],
+      "total_neuronios": 15
+    }
+  ]
+}
