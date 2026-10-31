@@ -2,9 +2,10 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#111827">
-    <title>Jalhica // Girabase Engine JDP</title>
+    <title>Jalhica: Assistente Pessoal // Neural Engine JDP</title>
+    
     <style>
         :root {
             --bg-deep: #111827;
@@ -16,151 +17,1097 @@
             --terminal-green: #22c55e;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        html, body { width: 100%; height: 100%; background-color: var(--bg-deep); color: #fff; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 15px; position: relative; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* GATILHO DA SALA DE MÁQUINAS (CANTO SUPERIOR ESQUERDO) */
-        #secret-trigger { position: absolute; top: 0; left: 0; width: 60px; height: 60px; opacity: 0; z-index: 9999; cursor: pointer; }
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            color: #ffffff;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+        }
 
-        /* CARRINHO (CANTO SUPERIOR DIREITO) */
-        #cart-widget { position: fixed; top: 15px; right: 15px; z-index: 1000; background: var(--panel-bg); border: 2px solid var(--yellow-gold); border-radius: 50px; padding: 6px 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        #cart-count { background: var(--alert-red); color: #fff; font-weight: bold; font-size: 11px; padding: 2px 6px; border-radius: 10px; }
+        /* BOTÃO SECRETO DA SALA DE MÁQUINAS (BACK-END) - CANTO SUPERIOR ESQUERDO */
+        #secret-trigger {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 70px;
+            height: 70px;
+            opacity: 0;
+            z-index: 9999;
+            cursor: pointer;
+        }
 
-        header { text-align: center; padding-bottom: 10px; border-bottom: 2px solid #2563eb; flex-shrink: 0; }
-        header h1 { color: var(--yellow-gold); font-size: 1.3rem; }
+        /* CARRINHO FLUTUANTE DO CLIENTE (FRONT-END) - CANTO SUPERIOR DIREITO */
+        #cart-widget {
+            position: fixed;
+            top: 25px;
+            right: 20px;
+            z-index: 1000;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--yellow-gold);
+            border-radius: 50px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(253, 224, 71, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
 
-        main { flex-grow: 1; max-width: 800px; width: 100%; margin: 10px auto; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+        #cart-widget:active {
+            transform: scale(0.95);
+        }
 
-        .interface-jalhica { background: var(--panel-bg); padding: 15px; border-radius: 8px; height: 100%; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--border-color); }
-        #chat-form { display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border-color); margin-top: auto; }
-        #user-input { flex-grow: 1; padding: 10px; border: none; border-radius: 6px; background: #374151; color: white; outline: none; }
-        #send-button { padding: 10px 14px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #cart-count {
+            background-color: var(--alert-red);
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
 
-        .message { padding: 10px; border-radius: 10px; max-width: 85%; font-size: 13px; line-height: 1.4; }
-        .user-message { align-self: flex-end; background: #2563eb; }
-        .jalhica-message { align-self: flex-start; background: #4b5563; }
+        header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2563eb;
+            flex-shrink: 0;
+            position: relative;
+        }
 
-        .rendered-img { max-width: 100%; height: auto; border-radius: 6px; margin-top: 6px; border: 1px solid var(--cyan-glow); }
-        .btn-add-cart { background: var(--yellow-gold); color: #000; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 4px; width: 100%; }
+        header h1 {
+            color: var(--yellow-gold);
+            text-shadow: 0 0 10px rgba(253, 224, 71, 0.4);
+            font-size: 1.5rem;
+        }
 
-        /* TELA DE MÁQUINAS E CARRINHO */
-        #engineering-deck, #cart-modal { display: none; flex-direction: column; gap: 1rem; width: 100%; background: var(--bg-deep); padding: 1rem; border-radius: 8px; border: 1px solid var(--yellow-gold); height: 100%; position: absolute; top: 0; left: 0; z-index: 500; overflow-y: auto; }
-        .btn-close { background: transparent; border: none; color: #ef4444; font-weight: bold; cursor: pointer; }
+        header p {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        main {
+            flex-grow: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 15px auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .interface-jalhica {
+            background-color: var(--panel-bg);
+            padding: 20px;
+            border-radius: 8px;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        #chat-form {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto; 
+            flex-shrink: 0;
+        }
+
+        #user-input {
+             flex-grow: 1;
+             padding: 12px; 
+             border: none; 
+             border-radius: 6px;
+             background-color: #374151;
+             color: white;
+             font-size: 14px;
+             outline: none;
+        }
+
+        #user-input:focus {
+            border: 1px solid var(--cyan-glow);
+        }
+
+        #send-button, #mic-button {
+            padding: 10px 16px; 
+            background-color: #2563eb; 
+            color: white; 
+            border: none; 
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #send-button:hover, #mic-button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .message {
+            padding: 10px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #2563eb; 
+            margin-left: auto;
+            color: #ffffff;
+        }
+
+        .jalhica-message {
+            align-self: flex-start;
+            background-color: #4b5563; 
+            margin-right: auto;
+            color: #f3f4f6;
+        }
+
+        .img-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .rendered-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            border: 1px solid var(--cyan-glow);
+        }
+
+        .btn-add-cart {
+            background-color: var(--yellow-gold);
+            color: var(--bg-deep);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-add-cart:hover {
+            background-color: #eab308;
+        }
+
+        /* ANIMAÇÃO DA FOTO VOANDO PRO CARRINHO */
+        .flying-img {
+            position: fixed;
+            z-index: 9999;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 2px solid var(--yellow-gold);
+            box-shadow: 0 0 10px rgba(253, 224, 71, 0.8);
+        }
+
+        /* TELA FRONT-END DO CARRINHO (APENAS FOTOS E CONTADOR) */
+        #cart-modal {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            background-color: var(--bg-deep);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--yellow-gold);
+            overflow-y: auto;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        .cart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart-item-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            position: relative;
+        }
+
+        .cart-item-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .item-qty-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: var(--terminal-green);
+            color: #000;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .btn-remove-item {
+            background-color: var(--alert-red);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        /* SALA DE MÁQUINAS // PAINEL BACK-END SECRETO */
+        #engineering-deck {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            background-color: var(--bg-deep);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(253, 224, 71, 0.4);
+            overflow-y: auto;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .panel-title {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--yellow-gold);
+        }
+
+        .btn-close {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .form-label {
+            font-size: 10px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.4rem;
+            padding: 0.625rem;
+            color: #ffffff;
+            outline: none;
+            font-size: 0.8rem;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--cyan-glow);
+        }
+
+        .btn-save {
+            width: 100%;
+            background-color: var(--yellow-gold);
+            color: var(--bg-deep);
+            border: none;
+            font-weight: bold;
+            padding: 0.625rem;
+            border-radius: 0.4rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .tools-container {
+            display: flex;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-tool {
+            flex: 1 1 45%;
+            background-color: #083344;
+            color: var(--cyan-glow);
+            border: 1px solid #155e75;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-tool-red {
+            flex: 1 1 100%;
+            background-color: #450a0a;
+            color: #fca5a5;
+            border: 1px solid #7f1d1d;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        #library-preview {
+            background-color: var(--panel-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            height: 7rem;
+            overflow-y: auto;
+            font-size: 9px;
+            color: var(--cyan-glow);
+        }
+
+        .preview-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.3rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 11px;
+            flex-shrink: 0;
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <button id="secret-trigger" onclick="toggleDeck()"></button>
+    <!-- BOTÃO SECRETO DA MÁQUINA (SALA DE MÁQUINAS - CANTO SUPERIOR ESQUERDO) -->
+    <button id="secret-trigger" onclick="togglePainelSecreto()" title="Sala de Máquinas // Engenharia Neural"></button>
 
-    <div id="cart-widget" onclick="toggleCarrinho()">
+    <!-- BOTÃO DO CARRINHO (FRONT-END - CANTO SUPERIOR DIREITO) -->
+    <div id="cart-widget" onclick="abrirTelaCarrinho()">
         <span>🛒</span>
         <span id="cart-count">0</span>
     </div>
 
     <header>
-        <h1>🤖 Jalhica Engine</h1>
-        <p><small>Arquiteto: José Divino Prado da Lapa // PRINCESA DIAMANTE</small></p>
+        <h1>🤖 Jalhica // Neural Engine</h1>
+        <p>Assistente Pessoal do Arquiteto José Divino Prado da Lapa</p>
     </header>
 
     <main>
+        <!-- INTERFACE CLÁSSICA DO CHAT -->
         <section id="chat-window" class="interface-jalhica">
             <div class="message jalhica-message">
-                Olá, Engenheiro! O Trabalhador (app.js) está ativo na memória e rodando em realtime.
+                Olá, Mestre José Divino! Sou Jalhica, equipada com o motor neuronal de contagem e fluxo autônomo.
             </div>
             
-            <form id="chat-form" onsubmit="enviarMensagem(event)">
-                <input type="text" id="user-input" placeholder="Cole uma URL de imagem ou digite uma mensagem..." autocomplete="off">
+            <form id="chat-form">
+                <button type="button" id="mic-button" title="Usar Microfone">🎙️</button>
+                <input type="text" id="user-input" placeholder="Pergunte algo a Jalhica..." autocomplete="off" required>
                 <button type="submit" id="send-button">Enviar</button>
             </form>
         </section>
 
-        <!-- TELA DO CARRINHO (FRONT-END) -->
+        <!-- TELA FRONT-END DO CARRINHO (APENAS FOTOS E CONTADOR) -->
         <div id="cart-modal">
-            <div style="display:flex; justify-between; align-items:center;">
-                <span style="color:var(--yellow-gold); font-weight:bold;">🛒 CARRINHO EM MEMÓRIA</span>
-                <button onclick="toggleCarrinho()" class="btn-close">✕ FECHAR</button>
+            <div class="panel-header">
+                <span class="panel-title">🛒 CARRINHO DE FOTOS SELECIONADAS</span>
+                <button onclick="fecharTelaCarrinho()" class="btn-close">✕ FECHAR</button>
             </div>
-            <div id="cart-list" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap:10px; margin-top:10px;"></div>
+            <div id="cart-items-container" class="cart-grid">
+                <!-- Fotos renderizam aqui -->
+            </div>
         </div>
 
-        <!-- SALA DE MÁQUINAS (BACK-END) -->
+        <!-- SALA DE MÁQUINAS (PAINEL BACK-END DE ENGENHARIA) -->
         <div id="engineering-deck">
-            <div style="display:flex; justify-between; align-items:center;">
-                <span style="color:var(--yellow-gold); font-weight:bold;">// SALA DE MÁQUINAS (RETAGUARDA)</span>
-                <button onclick="toggleDeck()" class="btn-close">✕ FECHAR</button>
+            <div class="panel-header">
+                <span class="panel-title">// SALA DE MÁQUINAS & MATRIZ NEURONAL JDP</span>
+                <button onclick="togglePainelSecreto()" class="btn-close">✕ FECHAR</button>
             </div>
-            <div style="margin-top:10px; display:flex; flex-direction:column; gap:10px;">
-                <button onclick="JALHICA_ENGINE.exportarDados('dados.json')" style="padding:10px; background:#0284c7; color:#fff; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">📥 Baixar dados.json Compilado</button>
-                <span id="val-sinapses" style="font-size:11px; color:var(--cyan-glow);">Sinapses Ativas: 0</span>
+
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div class="form-group">
+                    <label class="form-label">Gatilhos / Perguntas (separe por vírgula):</label>
+                    <input type="text" id="learn-key" placeholder="Ex: bacon supremo, burger bacon, lanche 2" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Resposta de Resolução:</label>
+                    <textarea id="learn-value" rows="3" placeholder="Ex: 🍔 Dony Bacon Supremo anotado! R$ 28,50." class="form-textarea"></textarea>
+                </div>
+                <button onclick="aprenderNovaInformacao()" class="btn-save">⚡ Fundir e Gravar Neurônios</button>
+            </div>
+
+            <!-- EXCLUSIVIDADE BACK-END: GERENCIAMENTO DE JSONS -->
+            <div class="tools-container">
+                <button onclick="baixarCerebroJSON()" class="btn-tool" style="background:#065f46; color:#34d399; border-color:#059669;">📥 Baixar cerebro.json</button>
+                <label class="btn-tool" style="cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                    📤 Injetar Cérebro
+                    <input type="file" id="inject-file" style="display: none;" onchange="injetarCerebroJSON(this)">
+                </label>
+                
+                <button onclick="JALHICA_DATA_ENGINE.exportarArquivoDados('dados.json')" class="btn-tool" style="background:#0284c7; color:#e0f2fe; border-color:#0369a1;">📥 Baixar dados.json</button>
+                <label class="btn-tool" style="cursor:pointer; display:flex; align-items:center; justify-content:center; background:#1e3a8a; color:#bfdbfe; border-color:#1d4ed8;">
+                    📤 Injetar dados.json
+                    <input type="file" id="inject-cart-file" style="display: none;" onchange="injetarDadosInput(this)">
+                </label>
+
+                <button onclick="limparTudo()" class="btn-tool-red">Zerar Malha Neural & Dados</button>
+            </div>
+
+            <div style="margin-top: 0.5rem;">
+                <span class="form-label" id="val-sinapses">Sinapses Ativas Gravadas: 0</span>
+                <div id="library-preview"></div>
             </div>
         </div>
     </main>
 
-    <!-- INJEÇÃO DO TRABALHADOR -->
-    <script src="app.js"></script>
+    <footer>
+        <p><small>&copy; 2026 José Divino Prado da Lapa. Chave: PRINCESA DIAMANTE.</small></p>
+    </footer>
 
     <script>
-        function toggleDeck() {
-            const d = document.getElementById('engineering-deck');
-            d.style.display = d.style.display === 'flex' ? 'none' : 'flex';
+        /* =========================================================================
+           1. MOTOR AUTÔNOMO DE CONTAGEM E DADOS (JALHICA_DATA_ENGINE / app.js)
+           ========================================================================= */
+        const JALHICA_DATA_ENGINE = {
+            vendasBrutas: [],
+
+            init: function() {
+                this.carregarMemoria();
+                this.atualizarInterfaceFront();
+            },
+
+            registrarTransacao: function(urlFoto, nomeItem = 'Item Selecionado', valorUnitario = 0) {
+                if (!urlFoto) return;
+
+                const novaVenda = {
+                    id_transacao: 'TX_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+                    url_foto: urlFoto,
+                    nome_item: nomeItem,
+                    valor: parseFloat(valorUnitario) || 0,
+                    timestamp: new Date().toISOString()
+                };
+
+                this.vendasBrutas.push(novaVenda);
+                this.salvarMemoria();
+                this.atualizarInterfaceFront();
+                return novaVenda;
+            },
+
+            salvarMemoria: function() {
+                localStorage.setItem('jalhica_vendas_brutas', JSON.stringify(this.vendasBrutas));
+            },
+
+            carregarMemoria: function() {
+                const dadosSalvos = localStorage.getItem('jalhica_vendas_brutas');
+                if (dadosSalvos) {
+                    try { this.vendasBrutas = JSON.parse(dadosSalvos); } catch (e) { this.vendasBrutas = []; }
+                }
+            },
+
+            atualizarInterfaceFront: function() {
+                const elContador = document.getElementById('cart-count');
+                if (elContador) {
+                    elContador.innerText = this.vendasBrutas.length;
+                }
+            },
+
+            removerUrlEspecifica: function(urlFoto) {
+                this.vendasBrutas = this.vendasBrutas.filter(item => item.url_foto !== urlFoto);
+                this.salvarMemoria();
+                this.atualizarInterfaceFront();
+            },
+
+            gerarDadosJSON: function() {
+                const agrupamento = {};
+
+                this.vendasBrutas.forEach(venda => {
+                    const url = venda.url_foto;
+                    if (!agrupamento[url]) {
+                        agrupamento[url] = {
+                            url_imagem: url,
+                            nome_produto: venda.nome_item,
+                            quantidade_total: 0,
+                            valor_unitario: venda.valor,
+                            subtotal: 0
+                        };
+                    }
+                    agrupamento[url].quantidade_total += 1;
+                    agrupamento[url].subtotal = agrupamento[url].quantidade_total * agrupamento[url].valor_unitario;
+                });
+
+                const itensConsolidados = Object.values(agrupamento);
+                const valorTotalGeral = itensConsolidados.reduce((acc, item) => acc + item.subtotal, 0);
+
+                const estruturaDados = {
+                    protocolo: "JDP_INDUSTRIAL_DATA_v3.0",
+                    arquiteto: "JOSE DIVINO PRADO DA LAPA",
+                    chave_mestra: "PRINCESA DIAMANTE",
+                    data_geracao: new Date().toISOString(),
+                    resumo_vendas: {
+                        total_transacoes: this.vendasBrutas.length,
+                        total_itens_unicos: itensConsolidados.length,
+                        valor_total_acumulado: valorTotalGeral
+                    },
+                    itens_consolidados: itensConsolidados,
+                    historico_bruto: this.vendasBrutas
+                };
+
+                return JSON.stringify(estruturaDados, null, 2);
+            },
+
+            exportarArquivoDados: function(nomeArquivo = 'dados.json') {
+                if (this.vendasBrutas.length === 0) {
+                    alert("Nenhum dado de venda computado até o momento!");
+                    return;
+                }
+
+                const jsonString = this.gerarDadosJSON();
+                const blob = new Blob([jsonString], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nomeArquivo;
+                a.click();
+                
+                URL.revokeObjectURL(url);
+            },
+
+            injetarDadosJSON: function(conteudoJSON) {
+                try {
+                    const parsed = typeof conteudoJSON === 'string' ? JSON.parse(conteudoJSON) : conteudoJSON;
+                    
+                    if (parsed.historico_bruto && Array.isArray(parsed.historico_bruto)) {
+                        this.vendasBrutas = parsed.historico_bruto;
+                    } else if (parsed.itens_consolidados && Array.isArray(parsed.itens_consolidados)) {
+                        const reconstruido = [];
+                        parsed.itens_consolidados.forEach(item => {
+                            for (let i = 0; i < (item.quantidade_total || 1); i++) {
+                                reconstruido.push({
+                                    id_transacao: 'TX_INJECTED_' + Date.now(),
+                                    url_foto: item.url_imagem,
+                                    nome_item: item.nome_produto || 'Item Injetado',
+                                    valor: item.valor_unitario || 0,
+                                    timestamp: new Date().toISOString()
+                                });
+                            }
+                        });
+                        this.vendasBrutas = reconstruido;
+                    }
+
+                    this.salvarMemoria();
+                    this.atualizarInterfaceFront();
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            },
+
+            zerarDados: function() {
+                this.vendasBrutas = [];
+                this.salvarMemoria();
+                this.atualizarInterfaceFront();
+            }
+        };
+
+        /* =========================================================================
+           2. LÓGICA DA INTERFACE, CHAT E NAVEGAÇÃO DA MÁQUINA
+           ========================================================================= */
+        let COGNITIVE_LIBRARY = [];
+
+        function togglePainelSecreto() {
+            const engDeck = document.getElementById('engineering-deck');
+            const cartModal = document.getElementById('cart-modal');
+            const chatWindow = document.getElementById('chat-window');
+            
+            cartModal.style.display = 'none';
+
+            if (engDeck.style.display === 'flex') {
+                engDeck.style.display = 'none';
+                chatWindow.style.display = 'flex';
+            } else {
+                engDeck.style.display = 'flex';
+                chatWindow.style.display = 'none';
+                atualizarTelas();
+            }
         }
 
-        function toggleCarrinho() {
-            const c = document.getElementById('cart-modal');
-            c.style.display = c.style.display === 'flex' ? 'none' : 'flex';
-            if (c.style.display === 'flex') renderCarrinho();
+        function abrirTelaCarrinho() {
+            const cartModal = document.getElementById('cart-modal');
+            const engDeck = document.getElementById('engineering-deck');
+            const chatWindow = document.getElementById('chat-window');
+            
+            engDeck.style.display = 'none';
+
+            renderizarItensCarrinho();
+            cartModal.style.display = 'flex';
+            chatWindow.style.display = 'none';
         }
 
-        function renderCarrinho() {
-            const container = document.getElementById('cart-list');
-            const vendas = JALHICA_ENGINE.vendasBrutas;
+        function fecharTelaCarrinho() {
+            const cartModal = document.getElementById('cart-modal');
+            const chatWindow = document.getElementById('chat-window');
+            cartModal.style.display = 'none';
+            chatWindow.style.display = 'flex';
+        }
+
+        function renderizarItensCarrinho() {
+            const container = document.getElementById('cart-items-container');
+            const vendas = JALHICA_DATA_ENGINE.vendasBrutas;
+
             if (vendas.length === 0) {
-                container.innerHTML = '<p style="font-size:11px; color:#9ca3af;">Carrinho vazio.</p>';
+                container.innerHTML = `<p style="color:#9ca3af; font-size:12px; grid-column: 1/-1; text-align:center;">Nenhuma foto foi adicionada ao carrinho ainda!</p>`;
                 return;
             }
-            container.innerHTML = vendas.map(v => `
-                <div style="background:#1f2937; padding:4px; border-radius:4px; text-align:center;">
-                    <img src="${v.url_foto}" style="width:100%; height:70px; object-fit:cover; border-radius:4px;">
+
+            const contagemMap = {};
+            vendas.forEach(v => {
+                contagemMap[v.url_foto] = (contagemMap[v.url_foto] || 0) + 1;
+            });
+
+            const itensUnicos = Object.keys(contagemMap);
+
+            container.innerHTML = itensUnicos.map((url) => {
+                const qtd = contagemMap[url];
+                return `
+                    <div class="cart-item-card">
+                        <span class="item-qty-badge">x${qtd}</span>
+                        <img src="${url}" alt="Foto Carrinho">
+                        <button class="btn-remove-item" onclick="removerDoCarrinho('${url}')">✕ Remover</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function removerDoCarrinho(url) {
+            JALHICA_DATA_ENGINE.removerUrlEspecifica(url);
+            renderizarItensCarrinho();
+        }
+
+        function injetarDadosInput(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (JALHICA_DATA_ENGINE.injetarDadosJSON(e.target.result)) {
+                    renderizarItensCarrinho();
+                    alert("dados.json injetado e processado com sucesso!");
+                } else {
+                    alert("Erro ao ler dados.json");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function adicionarAoCarrinho(btn, imgUrl) {
+            const imgElement = btn.previousElementSibling;
+            const rect = imgElement.getBoundingClientRect();
+            const cartWidget = document.getElementById('cart-widget');
+            const cartRect = cartWidget.getBoundingClientRect();
+
+            const clone = document.createElement('img');
+            clone.src = imgUrl;
+            clone.className = 'flying-img';
+            clone.style.left = rect.left + 'px';
+            clone.style.top = rect.top + 'px';
+            clone.style.width = rect.width + 'px';
+            clone.style.height = rect.height + 'px';
+            document.body.appendChild(clone);
+
+            setTimeout(() => {
+                clone.style.left = (cartRect.left + 10) + 'px';
+                clone.style.top = (cartRect.top + 10) + 'px';
+                clone.style.width = '20px';
+                clone.style.height = '20px';
+                clone.style.opacity = '0.3';
+            }, 20);
+
+            setTimeout(() => {
+                clone.remove();
+                
+                // CHAMA O MOTOR AUTÔNOMO PARA REGISTRAR A TRANSAÇÃO
+                JALHICA_DATA_ENGINE.registrarTransacao(imgUrl, 'Foto Selecionada', 0);
+
+                cartWidget.style.transform = 'scale(1.2)';
+                setTimeout(() => cartWidget.style.transform = 'scale(1)', 200);
+            }, 800);
+        }
+
+        /* =========================================================================
+           3. MATRIZ NEURONAL & RESOLUÇÃO DE SINAPSES (cerebro.json)
+           ========================================================================= */
+        function limparTexto(txt) {
+            if (!txt) return "";
+            return txt.toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-z0-9]/g, "");
+        }
+
+        function faturarEmNeuronios(textoLimpo) {
+            const tokens = new Set();
+            if (!textoLimpo || textoLimpo.length < 1) return [];
+
+            const t = `$${textoLimpo}$`;
+            for (let i = 0; i < t.length - 1; i++) tokens.add(t.substring(i, i + 2));
+            for (let i = 0; i < t.length - 2; i++) tokens.add(t.substring(i, i + 3));
+            return Array.from(tokens);
+        }
+
+        function calcularPesoNeuronio(tok) {
+            if (!tok) return 1.0;
+            let peso = 1.0;
+            if (tok.length === 3) peso *= 2.0;
+            if (/\d/.test(tok)) peso *= 3.5;
+            if (tok.startsWith('$') || tok.endsWith('$')) peso *= 1.3;
+            return peso;
+        }
+
+        function criarObjetoNeuronal(id, perguntasStr, respostaStr) {
+            const gatilhos = perguntasStr.split(",").map(g => g.trim()).filter(Boolean);
+            const todosNeuronios = new Set();
+
+            gatilhos.forEach(g => {
+                const limpo = limparTexto(g);
+                const neuronios = faturarEmNeuronios(limpo);
+                neuronios.forEach(n => todosNeuronios.add(n));
+            });
+
+            const neuroniosArr = Array.from(todosNeuronios);
+
+            return {
+                id: id,
+                gatilhos: gatilhos,
+                pergunta: gatilhos.join(", "),
+                resposta: respostaStr,
+                neuronios: neuroniosArr,
+                total_neuronios: neuroniosArr.length
+            };
+        }
+
+        function inicializarBaseNeural() {
+            const localCerebro = localStorage.getItem('jalhica_neural_cerebro');
+            if (localCerebro) {
+                try { COGNITIVE_LIBRARY = JSON.parse(localCerebro); } catch(e) { COGNITIVE_LIBRARY = []; }
+            }
+
+            if (!COGNITIVE_LIBRARY || COGNITIVE_LIBRARY.length === 0) {
+                const sementes = [
+                    { p: "QUEM E O SENHOR JOSE DIVINO, QUEM CRIOU VOCE", r: "O Senhor José Divino Prado da Lapa é meu Criador e Arquiteto supremo. Fui forjada com lógica pura e autonomia total." },
+                    { p: "PRINCESA DIAMANTE", r: "Princesa Diamante é a chave criptográfica mestra e senha inviolável da nossa arquitetura." },
+                    { p: "CARDAPIO, LANCHE, PEDIR", r: "🍔 **Cardápio Dony Burguers / Jalhica**:\n1️⃣ X-Tudo - R$ 32,00\n2️⃣ Kikão - R$ 6,00\n3️⃣ X-Bacon - R$ 17,00\nDigite o número ou nome do lanche para pedir!" },
+                    { p: "1, X TUDO, XTUDO", r: "🍔 **X-Tudo** selecionado! Ingredientes: Pão, ovo, bacon, carne, alface, tomate, salsicha e calabresa. R$ 32,00. Digite 'pix' para pagar." },
+                    { p: "PIX, PAGAR", r: "💳 Chave Pix para pagamento: **Pradolindalva4@gmail.com** (Titular: José Divino Prado da Lapa). Mande o comprovante!" }
+                ];
+                COGNITIVE_LIBRARY = sementes.map((s, idx) => criarObjetoNeuronal(`SYN_${idx + 1}`, s.p, s.r));
+                localStorage.setItem('jalhica_neural_cerebro', JSON.stringify(COGNITIVE_LIBRARY));
+            }
+            atualizarTelas();
+        }
+
+        function atualizarTelas() {
+            localStorage.setItem('jalhica_neural_cerebro', JSON.stringify(COGNITIVE_LIBRARY));
+            let totalTokens = 0;
+            COGNITIVE_LIBRARY.forEach(c => totalTokens += (c.neuronios ? c.neuronios.length : 0));
+            document.getElementById('val-sinapses').innerText = `Sinapses Ativas Gravadas: ${COGNITIVE_LIBRARY.length} (${totalTokens} neurônios)`;
+
+            const preview = document.getElementById('library-preview');
+            preview.innerHTML = COGNITIVE_LIBRARY.map((item, index) => `
+                <div class="preview-item">
+                    <span>⚡ <strong>${item.id}</strong>: ${item.pergunta.substring(0, 20)}...</span>
+                    <button onclick="removerCognicao(${index})" style="background:transparent; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">✕</button>
                 </div>
             `).join('');
         }
 
-        function enviarMensagem(e) {
-            e.preventDefault();
-            const input = document.getElementById('user-input');
-            const txt = input.value.trim();
-            if (!txt) return;
+        function buscarNaMatrizNeuronalPonderada(textoCliente) {
+            const buscaLimpa = limparTexto(textoCliente);
+            if (!buscaLimpa || buscaLimpa.length < 1) return null;
 
-            const chat = document.getElementById('chat-window');
-            const form = document.getElementById('chat-form');
+            const tokensClienteArr = faturarEmNeuronios(buscaLimpa);
+            if (tokensClienteArr.length === 0) return null;
 
-            // Exibe mensagem do usuário
-            const msgUser = document.createElement('div');
-            msgUser.className = 'message user-message';
-            msgUser.innerText = txt;
-            chat.insertBefore(msgUser, form);
+            const mapaTokensCliente = new Map();
+            let somaPesosEntrada = 0;
 
-            // Se for URL de foto
-            if (/(https?:\/\/[^\s<]+?\.(?:png|jpg|jpeg|gif|webp))/i.test(txt)) {
-                const msgBot = document.createElement('div');
-                msgBot.className = 'message jalhica-message';
-                msgBot.innerHTML = `
-                    Foto identificada!
-                    <img src="${txt}" class="rendered-img">
-                    <button class="btn-add-cart" onclick="adicionarFoto('${txt}')">🛒 Adicionar ao Carrinho</button>
-                `;
-                chat.insertBefore(msgBot, form);
+            tokensClienteArr.forEach(tok => {
+                const peso = calcularPesoNeuronio(tok);
+                mapaTokensCliente.set(tok, peso);
+                somaPesosEntrada += peso;
+            });
+
+            let melhorItem = null;
+            let maiorScorePonderado = 0;
+
+            COGNITIVE_LIBRARY.forEach(item => {
+                const itemTokens = item.neuronios || [];
+                let pesoColisoes = 0;
+                let acertosContiguidade = 0;
+                let ultimoIdxMatch = -2;
+
+                itemTokens.forEach((tok, idx) => {
+                    if (mapaTokensCliente.has(tok)) {
+                        const p = mapaTokensCliente.get(tok);
+                        pesoColisoes += p;
+                        if (idx === ultimoIdxMatch + 1) acertosContiguidade += 0.5 * p;
+                        ultimoIdxMatch = idx;
+                    }
+                });
+
+                if (pesoColisoes > 0) {
+                    let somaPesosItem = 0;
+                    itemTokens.forEach(t => somaPesosItem += calcularPesoNeuronio(t));
+
+                    const pesoEfetivoColisao = pesoColisoes + acertosContiguidade;
+                    const afinidadePonderada = pesoEfetivoColisao / Math.sqrt(somaPesosItem * somaPesosEntrada);
+
+                    if (afinidadePonderada > maiorScorePonderado) {
+                        maiorScorePonderado = afinidadePonderada;
+                        melhorItem = item;
+                    }
+                }
+            });
+
+            return { item: melhorItem, score: maiorScorePonderado };
+        }
+
+        window.addEventListener('load', () => {
+            JALHICA_DATA_ENGINE.init();
+            inicializarBaseNeural();
+
+            const chatWindow = document.getElementById('chat-window'); 
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button'); 
+            const micButton = document.getElementById('mic-button'); 
+            const chatForm = document.getElementById('chat-form'); 
+
+            function parseContent(str) {
+                const urlRegex = /(https?:\/\/[^\s<]+?\.(?:png|jpg|jpeg|gif|webp))/gi;
+                return str.replace(urlRegex, function(url) {
+                    return `<div class="img-container">
+                                <img src="${url}" class="rendered-img" alt="Imagem Jalhica" />
+                                <button type="button" class="btn-add-cart" onclick="adicionarAoCarrinho(this, '${url}')">
+                                    🛒 Adicionar ao Carrinho
+                                </button>
+                            </div>`;
+                });
             }
 
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            function displayMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                let parsedText = parseContent(text);
+                messageDiv.innerHTML = parsedText.replace(/\n/g, '<br>');
+
+                chatWindow.insertBefore(messageDiv, chatForm); 
+                chatWindow.scrollTop = chatWindow.scrollHeight; 
+            }
+
+            function removeLoadingMessage() {
+                const loading = document.getElementById('loading');
+                if (loading) loading.remove();
+            }
+
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault(); 
+                processarMensagemUsuario();
+            });
+
+            function processarMensagemUsuario() {
+                const userText = userInput.value.trim();
+                if (userText === '') return;
+
+                displayMessage(userText, 'user');
+                userInput.value = ''; 
+                sendButton.disabled = true;
+
+                let loadingMessage = document.createElement('div');
+                loadingMessage.className = 'message jalhica-message';
+                loadingMessage.id = 'loading';
+                loadingMessage.textContent = 'Jalhica pensando...';
+                
+                chatWindow.insertBefore(loadingMessage, chatForm); 
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                setTimeout(() => {
+                    removeLoadingMessage();
+                    
+                    const isImageUrl = /(https?:\/\/[^\s<]+?\.(?:png|jpg|jpeg|gif|webp))/i.test(userText);
+                    
+                    if (isImageUrl) {
+                        displayMessage(`Visualização da imagem renderizada com sucesso! Clique no botão abaixo para enviá-la ao carrinho.`, 'jalhica');
+                    } else {
+                        const match = buscarNaMatrizNeuronalPonderada(userText);
+                        if (match && match.item && match.score >= 0.10) {
+                            displayMessage(match.item.resposta, 'jalhica');
+                        } else {
+                            displayMessage(`Compreendi sua mensagem, mas não encontrei sinapses suficientes na matriz. Digite *cardapio* para ver as opções disponíveis!`, 'jalhica');
+                        }
+                    }
+
+                    sendButton.disabled = false;
+                    userInput.focus();
+                }, 300);
+            }
+
+            // Microfone
+            if (micButton && 'webkitSpeechRecognition' in window) { 
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'pt-BR'; 
+
+                micButton.addEventListener('click', () => {
+                    micButton.textContent = '🔴';
+                    micButton.disabled = true;
+                    userInput.placeholder = 'Escutando...';
+                    recognition.start();
+                });
+
+                recognition.onresult = (event) => {
+                    userInput.value = event.results[0][0].transcript;
+                    processarMensagemUsuario(); 
+                };
+
+                recognition.onend = () => {
+                    micButton.textContent = '🎙️';
+                    micButton.disabled = false;
+                    userInput.placeholder = 'Pergunte algo a Jalhica...';
+                };
+            }
+        });
+
+        function aprenderNovaInformacao() {
+            const rawKey = document.getElementById('learn-key').value.trim();
+            const rawVal = document.getElementById('learn-value').value.trim();
+            if (!rawKey || !rawVal) { alert("Informe a pergunta e a resposta!"); return; }
+
+            const novo = criarObjetoNeuronal(`SYN_${Date.now().toString().slice(-4)}`, rawKey, rawVal);
+            COGNITIVE_LIBRARY.push(novo);
+            atualizarTelas();
+            document.getElementById('learn-key').value = "";
+            document.getElementById('learn-value').value = "";
+            alert("Sinapse gravada no silício!");
         }
 
-        function adicionarFoto(url) {
-            // Chama a autoridade do Trabalhador
-            JALHICA_ENGINE.registrarVenda(url, 'Foto Carrinho', 0);
-            alert('Foto registrada pelo Trabalhador!');
+        function removerCognicao(index) {
+            COGNITIVE_LIBRARY.splice(index, 1);
+            atualizarTelas();
         }
-    </script>
+
+        function limparTudo() {
+            if (confirm("Zerar malha de sinapses e histórico de vendas?")) {
+                COGNITIVE_LIBRARY = [];
+                JALHICA_DATA_ENGINE.zerarDados();
+                atualizarTelas();
+                renderizarItensCarrinho();
+            }
+        }
+
+        function baixarCerebroJSON() {
+            if (COGNITIVE_LIBRARY.length === 0) { alert("Base vazia!"); return; }
+            const cerebroFinal = {
+                protocolo: "JDP_NEURAL_SYNAPSE_v8.5",
+                arquiteto: "JOSE DIVINO PRADO DA LAPA",
+                chave: "PRINCESA DIAMANTE",
+                malha_neuronal: COGNITIVE_LIBRARY
+            };
+            const blob = new Blob([JSON.stringify(cerebroFinal, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "cerebro.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function injetarCerebroJSON(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (parsed.malha_neuronal && Array.isArray(parsed.malha_neuronal)) {
+                        COGNITIVE_LIBRARY = parsed.malha_neuronal;
+                        atualizarTelas();
+                        alert("Cérebro injetado com sucesso!");
+                    }
+                } catch(err) { alert("Erro ao ler JSON"); }
+            };
+            reader.readAsText(file);
+        }
+    </script> 
 </body>
 </html>
