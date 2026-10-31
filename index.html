@@ -38,19 +38,19 @@
             position: relative;
         }
 
-        /* BOTÃO SECRETO DA MÁQUINA NO CANTO SUPERIOR DIREITO */
+        /* BOTÃO SECRETO DA SALA DE MÁQUINAS (CANTO SUPERIOR ESQUERDO) */
         #secret-trigger {
             position: absolute;
             top: 0;
-            right: 0;
-            width: 80px;
-            height: 80px;
+            left: 0;
+            width: 70px;
+            height: 70px;
             opacity: 0;
             z-index: 9999;
             cursor: pointer;
         }
 
-        /* CARRINHO FLUTUANTE NO CANTO DIREITO DA TELA */
+        /* CARRINHO FLUTUANTE (CANTO SUPERIOR DIREITO) */
         #cart-widget {
             position: fixed;
             top: 25px;
@@ -235,7 +235,75 @@
             box-shadow: 0 0 10px rgba(253, 224, 71, 0.8);
         }
 
-        /* PAINEL DE ENGENHARIA SECRETO (ABRE PELO BOTÃO DA MÁQUINA) */
+        /* TELA DO CARRINHO */
+        #cart-modal {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            background-color: var(--bg-deep);
+            padding: 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--yellow-gold);
+            overflow-y: auto;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 200;
+        }
+
+        .cart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cart-item-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            position: relative;
+        }
+
+        .cart-item-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .item-qty-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: var(--terminal-green);
+            color: #000;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .btn-remove-item {
+            background-color: var(--alert-red);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        /* SALA DE MÁQUINAS (PAINEL BACK-END SECRETO) */
         #engineering-deck {
             display: none;
             flex-direction: column;
@@ -321,10 +389,11 @@
             gap: 0.5rem;
             border-top: 1px solid var(--border-color);
             padding-top: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .btn-tool {
-            flex: 1;
+            flex: 1 1 45%;
             background-color: #083344;
             color: var(--cyan-glow);
             border: 1px solid #155e75;
@@ -338,6 +407,7 @@
         }
 
         .btn-tool-red {
+            flex: 1 1 100%;
             background-color: #450a0a;
             color: #fca5a5;
             border: 1px solid #7f1d1d;
@@ -379,11 +449,11 @@
 </head>
 <body>
 
-    <!-- BOTÃO INVISÍVEL DA MÁQUINA (CANTO SUPERIOR DIREITO) -->
-    <button id="secret-trigger" onclick="togglePainelSecreto()" title="Acesso Secreto / Painel da Máquina"></button>
+    <!-- BOTÃO DA SALA DE MÁQUINAS (CANTO SUPERIOR ESQUERDO) -->
+    <button id="secret-trigger" onclick="togglePainelSecreto()" title="Sala de Máquinas // Engenharia Neural"></button>
 
-    <!-- CARRINHO DE COMPRAS FLUTUANTE -->
-    <div id="cart-widget" onclick="verCarrinho()">
+    <!-- CARRINHO (CANTO SUPERIOR DIREITO) -->
+    <div id="cart-widget" onclick="abrirTelaCarrinho()">
         <span>🛒</span>
         <span id="cart-count">0</span>
     </div>
@@ -394,10 +464,10 @@
     </header>
 
     <main>
-        <!-- INTERFACE CLÁSSICA DO CHAT -->
+        <!-- INTERFACE DO CHAT -->
         <section id="chat-window" class="interface-jalhica">
             <div class="message jalhica-message">
-                Olá, Mestre José Divino! Sou Jalhica, equipada com o motor neuronal de bigramas e trigramas ponderados por pesos. Toque no canto superior direito (ou clique na área secreta) para acessar o Painel da Máquina.
+                Olá, Mestre José Divino! Sou Jalhica, motor externo conectado via URL do GitHub.
             </div>
             
             <form id="chat-form">
@@ -407,10 +477,19 @@
             </form>
         </section>
 
-        <!-- PAINEL DE ENGENHARIA DA MÁQUINA (SECRETO) -->
+        <!-- TELA DO CARRINHO -->
+        <div id="cart-modal">
+            <div class="panel-header">
+                <span class="panel-title">🛒 CARRINHO DE FOTOS SELECIONADAS</span>
+                <button onclick="fecharTelaCarrinho()" class="btn-close">✕ FECHAR</button>
+            </div>
+            <div id="cart-items-container" class="cart-grid"></div>
+        </div>
+
+        <!-- SALA DE MÁQUINAS -->
         <div id="engineering-deck">
             <div class="panel-header">
-                <span class="panel-title">// PAINEL DA MÁQUINA & MATRIZ NEURONAL JDP</span>
+                <span class="panel-title">// SALA DE MÁQUINAS & MATRIZ NEURONAL JDP</span>
                 <button onclick="togglePainelSecreto()" class="btn-close">✕ FECHAR</button>
             </div>
 
@@ -429,10 +508,17 @@
             <div class="tools-container">
                 <button onclick="baixarCerebroJSON()" class="btn-tool" style="background:#065f46; color:#34d399; border-color:#059669;">📥 Baixar cerebro.json</button>
                 <label class="btn-tool" style="cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                    📤 Injetar cérebro
+                    📤 Injetar Cérebro
                     <input type="file" id="inject-file" style="display: none;" onchange="injetarCerebroJSON(this)">
                 </label>
-                <button onclick="limparTudo()" class="btn-tool-red">Zerar Malha</button>
+                
+                <button onclick="JALHICA_DATA_ENGINE.exportarArquivoDados('dados.json')" class="btn-tool" style="background:#0284c7; color:#e0f2fe; border-color:#0369a1;">📥 Baixar dados.json</button>
+                <label class="btn-tool" style="cursor:pointer; display:flex; align-items:center; justify-content:center; background:#1e3a8a; color:#bfdbfe; border-color:#1d4ed8;">
+                    📤 Injetar dados.json
+                    <input type="file" id="inject-cart-file" style="display: none;" onchange="injetarDadosInput(this)">
+                </label>
+
+                <button onclick="limparTudo()" class="btn-tool-red">Zerar Malha Neural & Dados</button>
             </div>
 
             <div style="margin-top: 0.5rem;">
@@ -446,368 +532,7 @@
         <p><small>&copy; 2026 José Divino Prado da Lapa. Chave: PRINCESA DIAMANTE.</small></p>
     </footer>
 
-    <script>
-        let COGNITIVE_LIBRARY = [];
-        let CART_ITEMS = [];
-        let synth = window.speechSynthesis;
-
-        function togglePainelSecreto() {
-            const engDeck = document.getElementById('engineering-deck');
-            const chatWindow = document.getElementById('chat-window');
-            if (engDeck.style.display === 'flex') {
-                engDeck.style.display = 'none';
-                chatWindow.style.display = 'flex';
-            } else {
-                engDeck.style.display = 'flex';
-                chatWindow.style.display = 'none';
-                atualizarTelas();
-            }
-        }
-
-        function limparTexto(txt) {
-            if (!txt) return "";
-            return txt.toLowerCase()
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-                .replace(/[^a-z0-9]/g, "");
-        }
-
-        function faturarEmNeuronios(textoLimpo) {
-            const tokens = new Set();
-            if (!textoLimpo || textoLimpo.length < 1) return [];
-
-            const t = `$${textoLimpo}$`;
-            for (let i = 0; i < t.length - 1; i++) tokens.add(t.substring(i, i + 2));
-            for (let i = 0; i < t.length - 2; i++) tokens.add(t.substring(i, i + 3));
-            return Array.from(tokens);
-        }
-
-        function calcularPesoNeuronio(tok) {
-            if (!tok) return 1.0;
-            let peso = 1.0;
-            if (tok.length === 3) peso *= 2.0;
-            if (/\d/.test(tok)) peso *= 3.5;
-            if (tok.startsWith('$') || tok.endsWith('$')) peso *= 1.3;
-            return peso;
-        }
-
-        function criarObjetoNeuronal(id, perguntasStr, respostaStr) {
-            const gatilhos = perguntasStr.split(",").map(g => g.trim()).filter(Boolean);
-            const todosNeuronios = new Set();
-
-            gatilhos.forEach(g => {
-                const limpo = limparTexto(g);
-                const neuronios = faturarEmNeuronios(limpo);
-                neuronios.forEach(n => todosNeuronios.add(n));
-            });
-
-            const neuroniosArr = Array.from(todosNeuronios);
-
-            return {
-                id: id,
-                gatilhos: gatilhos,
-                pergunta: gatilhos.join(", "),
-                resposta: respostaStr,
-                neuronios: neuroniosArr,
-                total_neuronios: neuroniosArr.length
-            };
-        }
-
-        function inicializarBaseNeural() {
-            const localCerebro = localStorage.getItem('jalhica_neural_cerebro');
-            if (localCerebro) {
-                try { COGNITIVE_LIBRARY = JSON.parse(localCerebro); } catch(e) { COGNITIVE_LIBRARY = []; }
-            }
-
-            if (!COGNITIVE_LIBRARY || COGNITIVE_LIBRARY.length === 0) {
-                const sementes = [
-                    { p: "QUEM E O SENHOR JOSE DIVINO, QUEM CRIOU VOCE", r: "O Senhor José Divino Prado da Lapa é meu Criador e Arquiteto supremo. Fui forjada com lógica pura e autonomia total." },
-                    { p: "PRINCESA DIAMANTE", r: "Princesa Diamante é a chave criptográfica mestra e senha inviolável da nossa arquitetura." },
-                    { p: "CARDAPIO, LANCHE, PEDIR", r: "🍔 **Cardápio Dony Burguers / Jalhica**:\n1️⃣ X-Tudo - R$ 32,00\n2️⃣ Kikão - R$ 6,00\n3️⃣ X-Bacon - R$ 17,00\nDigite o número ou nome do lanche para pedir!" },
-                    { p: "1, X TUDO, XTUDO", r: "🍔 **X-Tudo** selecionado! Ingredientes: Pão, ovo, bacon, carne, alface, tomate, salsicha e calabresa. R$ 32,00. Digite 'pix' para pagar." },
-                    { p: "PIX, PAGAR", r: "💳 Chave Pix para pagamento: **Pradolindalva4@gmail.com** (Titular: José Divino Prado da Lapa). Mande o comprovante!" }
-                ];
-                COGNITIVE_LIBRARY = sementes.map((s, idx) => criarObjetoNeuronal(`SYN_${idx + 1}`, s.p, s.r));
-                localStorage.setItem('jalhica_neural_cerebro', JSON.stringify(COGNITIVE_LIBRARY));
-            }
-            atualizarTelas();
-        }
-
-        function atualizarTelas() {
-            localStorage.setItem('jalhica_neural_cerebro', JSON.stringify(COGNITIVE_LIBRARY));
-            let totalTokens = 0;
-            COGNITIVE_LIBRARY.forEach(c => totalTokens += (c.neuronios ? c.neuronios.length : 0));
-            document.getElementById('val-sinapses').innerText = `Sinapses Ativas Gravadas: ${COGNITIVE_LIBRARY.length} (${totalTokens} neurônios)`;
-
-            const preview = document.getElementById('library-preview');
-            preview.innerHTML = COGNITIVE_LIBRARY.map((item, index) => `
-                <div class="preview-item">
-                    <span>⚡ <strong>${item.id}</strong>: ${item.pergunta.substring(0, 20)}...</span>
-                    <button onclick="removerCognicao(${index})" style="background:transparent; border:none; color:#ef4444; cursor:pointer; font-weight:bold;">✕</button>
-                </div>
-            `).join('');
-        }
-
-        function buscarNaMatrizNeuronalPonderada(textoCliente) {
-            const buscaLimpa = limparTexto(textoCliente);
-            if (!buscaLimpa || buscaLimpa.length < 1) return null;
-
-            const tokensClienteArr = faturarEmNeuronios(buscaLimpa);
-            if (tokensClienteArr.length === 0) return null;
-
-            const mapaTokensCliente = new Map();
-            let somaPesosEntrada = 0;
-
-            tokensClienteArr.forEach(tok => {
-                const peso = calcularPesoNeuronio(tok);
-                mapaTokensCliente.set(tok, peso);
-                somaPesosEntrada += peso;
-            });
-
-            let melhorItem = null;
-            let maiorScorePonderado = 0;
-
-            COGNITIVE_LIBRARY.forEach(item => {
-                const itemTokens = item.neuronios || [];
-                let pesoColisoes = 0;
-                let acertosContiguidade = 0;
-                let ultimoIdxMatch = -2;
-
-                itemTokens.forEach((tok, idx) => {
-                    if (mapaTokensCliente.has(tok)) {
-                        const p = mapaTokensCliente.get(tok);
-                        pesoColisoes += p;
-                        if (idx === ultimoIdxMatch + 1) acertosContiguidade += 0.5 * p;
-                        ultimoIdxMatch = idx;
-                    }
-                });
-
-                if (pesoColisoes > 0) {
-                    let somaPesosItem = 0;
-                    itemTokens.forEach(t => somaPesosItem += calcularPesoNeuronio(t));
-
-                    const pesoEfetivoColisao = pesoColisoes + acertosContiguidade;
-                    const afinidadePonderada = pesoEfetivoColisao / Math.sqrt(somaPesosItem * somaPesosEntrada);
-
-                    if (afinidadePonderada > maiorScorePonderado) {
-                        maiorScorePonderado = afinidadePonderada;
-                        melhorItem = item;
-                    }
-                }
-            });
-
-            return { item: melhorItem, score: maiorScorePonderado };
-        }
-
-        // FUNÇÃO PARA ADICIONAR IMAGEM AO CARRINHO COM ANIMAÇÃO VOANDO
-        function adicionarAoCarrinho(btn, imgUrl) {
-            const imgElement = btn.previousElementSibling;
-            const rect = imgElement.getBoundingClientRect();
-            const cartWidget = document.getElementById('cart-widget');
-            const cartRect = cartWidget.getBoundingClientRect();
-
-            // Cria um clone visual da foto para voar
-            const clone = document.createElement('img');
-            clone.src = imgUrl;
-            clone.className = 'flying-img';
-            clone.style.left = rect.left + 'px';
-            clone.style.top = rect.top + 'px';
-            clone.style.width = rect.width + 'px';
-            clone.style.height = rect.height + 'px';
-            document.body.appendChild(clone);
-
-            // Animação movendo até o botão do carrinho na direita
-            setTimeout(() => {
-                clone.style.left = (cartRect.left + 10) + 'px';
-                clone.style.top = (cartRect.top + 10) + 'px';
-                clone.style.width = '20px';
-                clone.style.height = '20px';
-                clone.style.opacity = '0.3';
-            }, 20);
-
-            // Ao terminar a animação, atualiza o contador e remove a foto clone
-            setTimeout(() => {
-                clone.remove();
-                CART_ITEMS.push(imgUrl);
-                document.getElementById('cart-count').innerText = CART_ITEMS.length;
-                
-                // Efeito de destaque no carrinho
-                cartWidget.style.transform = 'scale(1.2)';
-                setTimeout(() => cartWidget.style.transform = 'scale(1)', 200);
-            }, 800);
-        }
-
-        function verCarrinho() {
-            if (CART_ITEMS.length === 0) {
-                alert("O seu carrinho de fotos está vazio!");
-                return;
-            }
-            alert(`🛒 Seu Carrinho possui ${CART_ITEMS.length} foto(s) armazenada(s)!`);
-        }
-
-        window.addEventListener('load', () => {
-            inicializarBaseNeural();
-
-            const chatWindow = document.getElementById('chat-window'); 
-            const userInput = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-button'); 
-            const micButton = document.getElementById('mic-button'); 
-            const chatForm = document.getElementById('chat-form'); 
-
-            function parseContent(str) {
-                const urlRegex = /(https?:\/\/[^\s<]+?\.(?:png|jpg|jpeg|gif|webp))/gi;
-                return str.replace(urlRegex, function(url) {
-                    return `<div class="img-container">
-                                <img src="${url}" class="rendered-img" alt="Imagem Jalhica" />
-                                <button type="button" class="btn-add-cart" onclick="adicionarAoCarrinho(this, '${url}')">
-                                    🛒 Adicionar ao Carrinho
-                                </button>
-                            </div>`;
-                });
-            }
-
-            function displayMessage(text, sender) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${sender}-message`;
-                
-                let parsedText = parseContent(text);
-                messageDiv.innerHTML = parsedText.replace(/\n/g, '<br>');
-
-                chatWindow.insertBefore(messageDiv, chatForm); 
-                chatWindow.scrollTop = chatWindow.scrollHeight; 
-            }
-
-            function removeLoadingMessage() {
-                const loading = document.getElementById('loading');
-                if (loading) loading.remove();
-            }
-
-            chatForm.addEventListener('submit', (e) => {
-                e.preventDefault(); 
-                processarMensagemUsuario();
-            });
-
-            function processarMensagemUsuario() {
-                const userText = userInput.value.trim();
-                if (userText === '') return;
-
-                displayMessage(userText, 'user');
-                userInput.value = ''; 
-                sendButton.disabled = true;
-
-                let loadingMessage = document.createElement('div');
-                loadingMessage.className = 'message jalhica-message';
-                loadingMessage.id = 'loading';
-                loadingMessage.textContent = 'Jalhica pensando...';
-                
-                chatWindow.insertBefore(loadingMessage, chatForm); 
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-
-                setTimeout(() => {
-                    removeLoadingMessage();
-                    
-                    const isImageUrl = /(https?:\/\/[^\s<]+?\.(?:png|jpg|jpeg|gif|webp))/i.test(userText);
-                    
-                    if (isImageUrl) {
-                        displayMessage(`Visualização da imagem renderizada com sucesso! Clique no botão abaixo para enviá-la ao carrinho.`, 'jalhica');
-                    } else {
-                        const match = buscarNaMatrizNeuronalPonderada(userText);
-                        if (match && match.item && match.score >= 0.10) {
-                            displayMessage(match.item.resposta, 'jalhica');
-                        } else {
-                            displayMessage(`Compreendi sua mensagem, mas não encontrei sinapses suficientes na matriz. Digite *cardapio* para ver as opções disponíveis!`, 'jalhica');
-                        }
-                    }
-
-                    sendButton.disabled = false;
-                    userInput.focus();
-                }, 300);
-            }
-
-            // Microfone
-            if (micButton && 'webkitSpeechRecognition' in window) { 
-                const recognition = new webkitSpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = false;
-                recognition.lang = 'pt-BR'; 
-
-                micButton.addEventListener('click', () => {
-                    micButton.textContent = '🔴';
-                    micButton.disabled = true;
-                    userInput.placeholder = 'Escutando...';
-                    recognition.start();
-                });
-
-                recognition.onresult = (event) => {
-                    userInput.value = event.results[0][0].transcript;
-                    processarMensagemUsuario(); 
-                };
-
-                recognition.onend = () => {
-                    micButton.textContent = '🎙️';
-                    micButton.disabled = false;
-                    userInput.placeholder = 'Pergunte algo a Jalhica...';
-                };
-            }
-        });
-
-        function aprenderNovaInformacao() {
-            const rawKey = document.getElementById('learn-key').value.trim();
-            const rawVal = document.getElementById('learn-value').value.trim();
-            if (!rawKey || !rawVal) { alert("Informe a pergunta e a resposta!"); return; }
-
-            const novo = criarObjetoNeuronal(`SYN_${Date.now().toString().slice(-4)}`, rawKey, rawVal);
-            COGNITIVE_LIBRARY.push(novo);
-            atualizarTelas();
-            document.getElementById('learn-key').value = "";
-            document.getElementById('learn-value').value = "";
-            alert("Sinapse gravada no silício!");
-        }
-
-        function removerCognicao(index) {
-            COGNITIVE_LIBRARY.splice(index, 1);
-            atualizarTelas();
-        }
-
-        function limparTudo() {
-            if (confirm("Zerar malha de sinapses?")) {
-                COGNITIVE_LIBRARY = [];
-                atualizarTelas();
-            }
-        }
-
-        function baixarCerebroJSON() {
-            if (COGNITIVE_LIBRARY.length === 0) { alert("Base vazia!"); return; }
-            const cerebroFinal = {
-                protocolo: "JDP_NEURAL_SYNAPSE_v8.5",
-                arquiteto: "JOSE DIVINO PRADO DA LAPA",
-                chave: "PRINCESA DIAMANTE",
-                malha_neuronal: COGNITIVE_LIBRARY
-            };
-            const blob = new Blob([JSON.stringify(cerebroFinal, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "cerebro.json";
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function injetarCerebroJSON(input) {
-            const file = input.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const parsed = JSON.parse(e.target.result);
-                    if (parsed.malha_neuronal && Array.isArray(parsed.malha_neuronal)) {
-                        COGNITIVE_LIBRARY = parsed.malha_neuronal;
-                        atualizarTelas();
-                        alert("Cérebro injetado com sucesso!");
-                    }
-                } catch(err) { alert("Erro ao ler JSON"); }
-            };
-            reader.readAsText(file);
-        }
-    </script> 
+    <!-- INJEÇÃO DO APP.JS DIRETAMENTE VIA URL DO SEU GITHUB PAGES -->
+    <script src="https://pradodalapa-hue.github.io/Teztetext/app.js?t=9999"></script>
 </body>
 </html>
