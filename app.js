@@ -1,164 +1,130 @@
 /**
- * JDP INDUSTRIAL // SISTEMA JALHICA - MOTOR DE CONTAGEM E DADOS (app.js)
- * Arquitetura: Serverless / Real-time via URL e JSON
+ * JDP INDUSTRIAL // JALHICA ENGINE v9.0 SUPREME
  * Arquiteto: José Divino Prado da Lapa
  * Chave Mestra: PRINCESA DIAMANTE
+ * Função: Trabalhador autônomo de dados e sinapses (Girabase Realtime)
  */
 
-const JALHICA_DATA_ENGINE = {
-    // Array interno para armazenar cada transação em tempo de execução
+const JALHICA_ENGINE = {
+    urls: {
+        cerebro: "https://pradodalapa-hue.github.io/Teztetext/cerebro.json",
+        dados: "https://pradodalapa-hue.github.io/Teztetext/dados.json"
+    },
+    
     vendasBrutas: [],
+    cognitiveLibrary: [],
 
-    // 1. INICIALIZAÇÃO
+    // 1. INICIALIZAÇÃO DA CASA
     init: function() {
-        this.carregarMemoria();
-        this.atualizarInterfaceFront();
+        this.carregarLocal();
+        this.iniciarRealtimeWorker();
+        this.atualizarInterface();
     },
 
-    // 2. AÇÃO DO GARÇOM (Registra a URL enviada como 1 unidade vendida)
-    registrarTransacao: function(urlFoto, nomeItem = 'Foto Selecionada', valorUnitario = 0) {
+    // 2. O TRABALHADOR SAI PRA RUA (Registra a foto/venda enviada pelo Garçom)
+    registrarVenda: function(urlFoto, nomeItem = 'Item Selecionado', valor = 0) {
         if (!urlFoto) return;
 
-        const novaVenda = {
-            id_transacao: 'TX_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        const transacao = {
+            id: 'TX_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
             url_foto: urlFoto,
-            nome_item: nomeItem,
-            valor: parseFloat(valorUnitario) || 0,
+            nome: nomeItem,
+            valor: parseFloat(valor) || 0,
             timestamp: new Date().toISOString()
         };
 
-        this.vendasBrutas.push(novaVenda);
-        this.salvarMemoria();
-        this.atualizarInterfaceFront();
-        return novaVenda;
+        this.vendasBrutas.push(transacao);
+        this.salvarLocal();
+        this.atualizarInterface();
+        return transacao;
     },
 
-    // 3. PERSISTÊNCIA EM MEMÓRIA LOCAL
-    salvarMemoria: function() {
-        localStorage.setItem('jalhica_vendas_brutas', JSON.stringify(this.vendasBrutas));
+    // 3. RETORNO PARA A CASA (Persistência no localStorage)
+    salvarLocal: function() {
+        localStorage.setItem('jdp_vendas_log', JSON.stringify(this.vendasBrutas));
+        localStorage.setItem('jalhica_neural_cerebro', JSON.stringify(this.cognitiveLibrary));
     },
 
-    carregarMemoria: function() {
-        const dadosSalvos = localStorage.getItem('jalhica_vendas_brutas');
-        if (dadosSalvos) {
-            try { this.vendasBrutas = JSON.parse(dadosSalvos); } catch (e) { this.vendasBrutas = []; }
+    carregarLocal: function() {
+        const d = localStorage.getItem('jdp_vendas_log');
+        const c = localStorage.getItem('jalhica_neural_cerebro');
+        if (d) try { this.vendasBrutas = JSON.parse(d); } catch(e) { this.vendasBrutas = []; }
+        if (c) try { this.cognitiveLibrary = JSON.parse(c); } catch(e) { this.cognitiveLibrary = []; }
+    },
+
+    // 4. ATUALIZAÇÃO DO FRONT-END
+    atualizarInterface: function() {
+        const elCount = document.getElementById('cart-count');
+        if (elCount) elCount.innerText = this.vendasBrutas.length;
+
+        const elSinapses = document.getElementById('val-sinapses');
+        if (elSinapses) {
+            let totalTokens = 0;
+            this.cognitiveLibrary.forEach(item => totalTokens += (item.neuronios ? item.neuronios.length : 0));
+            elSinapses.innerText = `Sinapses Ativas: ${this.cognitiveLibrary.length} (${totalTokens} neurônios)`;
         }
     },
 
-    // 4. ATUALIZAÇÃO DO FRONT-END (Contador do Carrinho)
-    atualizarInterfaceFront: function() {
-        const elContador = document.getElementById('cart-count');
-        if (elContador) {
-            elContador.innerText = this.vendasBrutas.length;
-        }
-    },
-
-    // 5. REMOÇÃO DE OCORRÊNCIA DA MEMÓRIA
-    removerUrlEspecifica: function(urlFoto) {
-        this.vendasBrutas = this.vendasBrutas.filter(item => item.url_foto !== urlFoto);
-        this.salvarMemoria();
-        this.atualizarInterfaceFront();
-    },
-
-    // 6. COMPILAÇÃO DO ARQUIVO DADOS.JSON (Sala de Máquinas)
-    gerarDadosJSON: function() {
-        const agrupamento = {};
-
-        // Agrupa por URL e calcula a contagem exata (frequência)
-        this.vendasBrutas.forEach(venda => {
-            const url = venda.url_foto;
-            if (!agrupamento[url]) {
-                agrupamento[url] = {
-                    url_imagem: url,
-                    nome_produto: venda.nome_item,
-                    quantidade_total: 0,
-                    valor_unitario: venda.valor,
-                    subtotal: 0
-                };
+    // 5. MOTOR REALTIME (Puxa as atualizações das URLs do GitHub sem travar cache)
+    iniciarRealtimeWorker: function() {
+        const sincronizar = async () => {
+            try {
+                // Puxa cerebro.json
+                const resCerebro = await fetch(`${this.urls.cerebro}?t=${Date.now()}`);
+                if (resCerebro.ok) {
+                    const jsonCerebro = await resCerebro.json();
+                    if (jsonCerebro.malha_neuronal) {
+                        this.cognitiveLibrary = jsonCerebro.malha_neuronal;
+                    }
+                }
+                // Puxa dados.json
+                const resDados = await fetch(`${this.urls.dados}?t=${Date.now()}`);
+                if (resDados.ok) {
+                    const jsonDados = await resDados.json();
+                    if (jsonDados.historico_bruto) {
+                        this.vendasBrutas = jsonDados.historico_bruto;
+                    }
+                }
+                this.salvarLocal();
+                this.atualizarInterface();
+            } catch (err) {
+                console.log("[JALHICA WORKER] Modo offline ou aguardando sincronização.");
             }
-            agrupamento[url].quantidade_total += 1;
-            agrupamento[url].subtotal = agrupamento[url].quantidade_total * agrupamento[url].valor_unitario;
-        });
-
-        const itensConsolidados = Object.values(agrupamento);
-        const valorTotalGeral = itensConsolidados.reduce((acc, item) => acc + item.subtotal, 0);
-
-        const estruturaDados = {
-            protocolo: "JDP_INDUSTRIAL_DATA_v3.0",
-            arquiteto: "JOSE DIVINO PRADO DA LAPA",
-            chave_mestra: "PRINCESA DIAMANTE",
-            data_geracao: new Date().toISOString(),
-            resumo_vendas: {
-                total_transacoes: this.vendasBrutas.length,
-                total_itens_unicos: itensConsolidados.length,
-                valor_total_acumulado: valorTotalGeral
-            },
-            itens_consolidados: itensConsolidados,
-            historico_bruto: this.vendasBrutas
         };
 
-        return JSON.stringify(estruturaDados, null, 2);
+        sincronizar();
+        setInterval(sincronizar, 10000); // Polling a cada 10 segundos
     },
 
-    // 7. EXPORTAÇÃO FÍSICA PARA DOWNLOAD DE DADOS.JSON
-    exportarArquivoDados: function(nomeArquivo = 'dados.json') {
-        if (this.vendasBrutas.length === 0) {
-            alert("Nenhum dado de venda computado até o momento!");
-            return;
-        }
+    // 6. COMPILAÇÃO E ESCRITA DO DADOS.JSON (Sala de Máquinas)
+    gerarDadosJSON: function() {
+        const agrupamento = {};
+        this.vendasBrutas.forEach(v => {
+            const url = v.url_foto;
+            if (!agrupamento[url]) {
+                agrupamento[url] = { url_imagem: url, nome: v.nome, quantidade_total: 0, valor_unitario: v.valor };
+            }
+            agrupamento[url].quantidade_total += 1;
+        });
 
-        const jsonString = this.gerarDadosJSON();
-        const blob = new Blob([jsonString], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        
+        return JSON.stringify({
+            protocolo: "JDP_INDUSTRIAL_DATA_v9.0",
+            arquiteto: "JOSE DIVINO PRADO DA LAPA",
+            chave_mestra: "PRINCESA DIAMANTE",
+            resumo: { total_transacoes: this.vendasBrutas.length, total_itens_unicos: Object.keys(agrupamento).length },
+            itens_consolidados: Object.values(agrupamento),
+            historico_bruto: this.vendasBrutas
+        }, null, 2);
+    },
+
+    exportarDados: function(nomeArquivo = 'dados.json') {
+        const blob = new Blob([this.gerarDadosJSON()], { type: "application/json" });
         const a = document.createElement('a');
-        a.href = url;
+        a.href = URL.createObjectURL(blob);
         a.download = nomeArquivo;
         a.click();
-        
-        URL.revokeObjectURL(url);
-    },
-
-    // 8. INJEÇÃO E LEITURA DE DADOS EXTERNOS
-    injetarDadosJSON: function(conteudoJSON) {
-        try {
-            const parsed = typeof conteudoJSON === 'string' ? JSON.parse(conteudoJSON) : conteudoJSON;
-            
-            if (parsed.historico_bruto && Array.isArray(parsed.historico_bruto)) {
-                this.vendasBrutas = parsed.historico_bruto;
-            } else if (parsed.itens_consolidados && Array.isArray(parsed.itens_consolidados)) {
-                const reconstruido = [];
-                parsed.itens_consolidados.forEach(item => {
-                    for (let i = 0; i < (item.quantidade_total || 1); i++) {
-                        reconstruido.push({
-                            id_transacao: 'TX_INJECTED_' + Date.now(),
-                            url_foto: item.url_imagem,
-                            nome_item: item.nome_produto || 'Item Injetado',
-                            valor: item.valor_unitario || 0,
-                            timestamp: new Date().toISOString()
-                        });
-                    }
-                });
-                this.vendasBrutas = reconstruido;
-            }
-
-            this.salvarMemoria();
-            this.atualizarInterfaceFront();
-            return true;
-        } catch (e) {
-            return false;
-        }
-    },
-
-    // 9. LIMPEZA TOTAL DA MALHA DE DADOS
-    zerarDados: function() {
-        this.vendasBrutas = [];
-        this.salvarMemoria();
-        this.atualizarInterfaceFront();
     }
 };
 
-// Inicialização automática ao carregar o DOM
-document.addEventListener('DOMContentLoaded', () => {
-    JALHICA_DATA_ENGINE.init();
-});
+// Dispara o motor quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => JALHICA_ENGINE.init());
