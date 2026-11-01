@@ -1,5 +1,6 @@
 {
-  "pedidos_ativos": {
+  "pedidos_ativos": {},
+  "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
       "mesa": "Mesa / Realtime URL",
@@ -11,41 +12,8 @@
         }
       ],
       "total": 10,
-      "status": "Pendente"
-    },
-    "PED_1793508650711": {
-      "id": "PED_1793508650711",
-      "mesa": "Mesa / Chat Direct",
-      "hora": "00:50",
-      "itens": [
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        },
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        },
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        },
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        },
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        },
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        }
-      ],
-      "total": 60,
-      "status": "Pendente"
+      "status": "PRONTO",
+      "pronto_em": "00:51"
     }
-  },
-  "pedidos_concluidos": {}
+  }
 }
