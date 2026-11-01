@@ -1,5 +1,24 @@
 {
-  "pedidos_ativos": {},
+  "pedidos_ativos": {
+    "jdp-zvh8y": {
+      "id": "jdp-zvh8y",
+      "cliente": "edeilza brasil",
+      "telefone": "92995314800",
+      "endereco": "rua henrique magnanes",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "09:12",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 25,
+      "status": "pendente"
+    }
+  },
   "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
