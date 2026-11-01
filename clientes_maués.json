@@ -8,6 +8,14 @@
       "cidade": "maués",
       "estado": "AM",
       "atualizado_em": 1793539189319
+    },
+    "CLI_929974666134": {
+      "nome": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "atualizado_em": 1793541165010
     }
   },
   "protocolo": "JDP_CLIENTES_CIDADE_v1.0"
