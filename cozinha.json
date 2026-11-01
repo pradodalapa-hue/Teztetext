@@ -1,41 +1,5 @@
 {
-  "pedidos_ativos": {
-    "jdp-j07x0": {
-      "id": "jdp-j07x0",
-      "cliente": "JOSE DIVINO PRADO DA LAPA",
-      "endereco": "RUA NOVA VENEZA TARUMA AÇU",
-      "hora": "01:48",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        }
-      ],
-      "total": 25,
-      "status": "pendente"
-    },
-    "jdp-5apyz": {
-      "id": "jdp-5apyz",
-      "cliente": "JOSE DIVINO PRADO DA LAPA",
-      "endereco": "RUA NOVA VENEZA TARUMA AÇU",
-      "hora": "01:51",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        },
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        }
-      ],
-      "total": 50,
-      "status": "pendente"
-    }
-  },
+  "pedidos_ativos": {},
   "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
@@ -69,6 +33,43 @@
         }
       ],
       "total": 50,
+      "status": "PRONTO",
+      "pronto_em": "02:02"
+    },
+    "jdp-5apyz": {
+      "id": "jdp-5apyz",
+      "cliente": "JOSE DIVINO PRADO DA LAPA",
+      "endereco": "RUA NOVA VENEZA TARUMA AÇU",
+      "hora": "01:51",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 50,
+      "status": "PRONTO",
+      "pronto_em": "02:02"
+    },
+    "jdp-j07x0": {
+      "id": "jdp-j07x0",
+      "cliente": "JOSE DIVINO PRADO DA LAPA",
+      "endereco": "RUA NOVA VENEZA TARUMA AÇU",
+      "hora": "01:48",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 25,
       "status": "PRONTO",
       "pronto_em": "02:02"
     }
