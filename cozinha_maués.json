@@ -2,21 +2,18 @@
   "pedidos_ativos": {
     "jdp-cfl7k": {
       "id": "jdp-cfl7k",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
+      "cliente": "JDP_SISTEMAS",
       "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
+      "status": "pendente",
       "hora": "15:37",
+      "total": 23,
       "itens": [
         {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
+          "nome": "Pedido Personalizado App",
+          "preco": 23,
+          "qtd": 1
         }
-      ],
-      "total": 23,
-      "status": "pendente"
+      ]
     }
   },
   "pedidos_concluidos": {}
