@@ -1,54 +1,5 @@
 {
   "pedidos_prontos": {
-    "jdp-fakg1": {
-      "id": "jdp-fakg1",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
-      "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
-      "hora": "09:52",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 23,
-      "status": "SAIU_PARA_ENTREGA",
-      "pronto_em": "09:54",
-      "data_conclusao": "2026-11-01T13:54:08.951Z",
-      "motoboy_id": "MOTO_929997999999",
-      "motoboy_nome": "FABRICIO",
-      "motoboy_telefone": "929997999999",
-      "cidade_base": "Maués"
-    },
-    "jdp-s1d8e": {
-      "id": "jdp-s1d8e",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
-      "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
-      "hora": "10:21",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        },
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 48,
-      "status": "PRONTO",
-      "pronto_em": "10:22",
-      "data_conclusao": "2026-11-01T14:22:11.659Z"
-    },
     "JDP-1793547423856": {
       "id": "JDP-1793547423856",
       "cliente": "JDP_SISTEMAS",
