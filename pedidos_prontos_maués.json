@@ -1,7 +1,33 @@
 {
-  "pedidos_prontos": {},
+  "pedidos_prontos": {
+    "jdp-wm11p": {
+      "id": "jdp-wm11p",
+      "cliente": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "12:03",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 48,
+      "status": "PRONTO",
+      "pronto_em": "12:37",
+      "data_conclusao": "2026-11-01T16:37:43.955Z"
+    }
+  },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T16:19:37.386Z"
+  "ultima_atualizacao": "2026-11-01T16:37:44.123Z"
 }
