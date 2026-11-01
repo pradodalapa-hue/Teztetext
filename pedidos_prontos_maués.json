@@ -41,10 +41,27 @@
       ],
       "pronto_em": "12:41",
       "data_conclusao": "2026-11-01T16:41:33.778Z"
+    },
+    "JDP-1793557876143": {
+      "id": "JDP-1793557876143",
+      "cliente": "JDP_SISTEMAS",
+      "endereco": "Rua henrique magnanes bairro ramalho junior",
+      "status": "PRONTO",
+      "hora": "14:31",
+      "total": 33,
+      "itens": [
+        {
+          "nome": "farofa",
+          "preco": 25,
+          "qtd": 1
+        }
+      ],
+      "pronto_em": "14:48",
+      "data_conclusao": "2026-11-01T18:48:44.286Z"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T16:41:33.982Z"
+  "ultima_atualizacao": "2026-11-01T18:48:44.396Z"
 }
