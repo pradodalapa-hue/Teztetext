@@ -1,0 +1,43 @@
+{
+  "pedidos_entregues": {
+    "jdp-5xpbl": {
+      "id": "jdp-5xpbl",
+      "cliente": "edeilza brasil",
+      "telefone": "92995314800",
+      "endereco": "rua henrique magnanes",
+      "cidade": "Maués",
+      "estado": "AM",
+      "hora": "09:19",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 73,
+      "status": "ENTREGUE",
+      "pronto_em": "09:31",
+      "data_conclusao": "2026-11-01T13:31:47.872Z",
+      "motoboy_id": "MOTO_92994776102",
+      "motoboy_nome": "JORGE",
+      "motoboy_telefone": "92994776102",
+      "cidade_base": "Maués",
+      "finalizado_em": 1793540495483
+    }
+  },
+  "protocolo": "JDP_PEDIDOS_ENTREGUES_v1.0",
+  "arquiteto": "JOSE DIVINO PRADO DA LAPA",
+  "chave_mestra": "PRINCESA DIAMANTE",
+  "ultima_atualizacao": "2026-11-01T13:41:35.724Z"
+}
