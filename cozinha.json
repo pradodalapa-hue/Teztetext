@@ -1,5 +1,6 @@
 {
-  "pedidos_ativos": {
+  "pedidos_ativos": {},
+  "pedidos_concluidos": {
     "PED_1793498369171": {
       "id": "PED_1793498369171",
       "mesa": "Mesa / Realtime URL",
@@ -11,8 +12,8 @@
         }
       ],
       "total": 10,
-      "status": "Pendente"
+      "status": "PRONTO",
+      "pronto_em": "21:59"
     }
-  },
-  "pedidos_concluidos": {}
+  }
 }
