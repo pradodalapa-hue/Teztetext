@@ -7,6 +7,16 @@
       "senha": "160620",
       "status": "ONLINE",
       "criadoEm": 1793536826597
+    },
+    "MOTO_92994776102": {
+      "id": "MOTO_92994776102",
+      "nome": "JORGE",
+      "telefone": "92994776102",
+      "estado": "AM",
+      "cidade": "Maués",
+      "senha": "160620",
+      "status": "ONLINE",
+      "criadoEm": 1793538295278
     }
   },
   "protocolo": "JDP_MOTORISTAS_v1.0"
