@@ -17,6 +17,16 @@
       "senha": "160620",
       "status": "ONLINE",
       "criadoEm": 1793538295278
+    },
+    "MOTO_92994613161": {
+      "id": "MOTO_92994613161",
+      "nome": "JUJU",
+      "telefone": "92994613161",
+      "estado": "AM",
+      "cidade": "Maués",
+      "senha": "160620",
+      "status": "ONLINE",
+      "criadoEm": 1793542174093
     }
   },
   "protocolo": "JDP_MOTORISTAS_v1.0"
