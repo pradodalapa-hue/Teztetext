@@ -14,12 +14,12 @@
       ],
       "total": 25,
       "status": "PRONTO",
-      "pronto_em": "07:10",
-      "data_conclusao": "2026-11-01T11:10:57.147Z"
+      "pronto_em": "07:11",
+      "data_conclusao": "2026-11-01T11:11:05.102Z"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T11:10:57.251Z"
+  "ultima_atualizacao": "2026-11-01T11:11:05.198Z"
 }
