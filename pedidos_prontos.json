@@ -1,0 +1,25 @@
+{
+  "pedidos_prontos": {
+    "jdp-j83t3": {
+      "id": "jdp-j83t3",
+      "cliente": "edeilza brasil",
+      "endereco": "rua bare taruma acu",
+      "hora": "06:59",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 25,
+      "status": "PRONTO",
+      "pronto_em": "07:10",
+      "data_conclusao": "2026-11-01T11:10:31.184Z"
+    }
+  },
+  "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
+  "arquiteto": "JOSE DIVINO PRADO DA LAPA",
+  "chave_mestra": "PRINCESA DIAMANTE",
+  "ultima_atualizacao": "2026-11-01T11:10:31.389Z"
+}
