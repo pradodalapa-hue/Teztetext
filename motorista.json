@@ -1,0 +1,13 @@
+{
+  "motoristas": {
+    "MOTO_92984846059": {
+      "id": "MOTO_92984846059",
+      "nome": "FAFA",
+      "telefone": "92984846059",
+      "senha": "160620",
+      "status": "ONLINE",
+      "criadoEm": 1793536826597
+    }
+  },
+  "protocolo": "JDP_MOTORISTAS_v1.0"
+}
