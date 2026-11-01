@@ -1,21 +1,5 @@
 {
-  "pedidos_ativos": {
-    "jdp-cttpx": {
-      "id": "jdp-cttpx",
-      "cliente": "JOSE DIVINO PRADO DA LAPA",
-      "endereco": "RUA BARE TARUMA AÇU",
-      "hora": "07:20",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 23,
-      "status": "pendente"
-    }
-  },
+  "pedidos_ativos": {},
   "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
