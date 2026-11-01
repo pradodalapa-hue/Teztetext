@@ -33,10 +33,27 @@
       "status": "PRONTO",
       "pronto_em": "07:22",
       "data_conclusao": "2026-11-01T11:22:43.140Z"
+    },
+    "jdp-9ebbc": {
+      "id": "jdp-9ebbc",
+      "cliente": "JOSE DIVINO PRADO DA LAPA",
+      "endereco": "RUA BARE TARUMA AÇU",
+      "hora": "07:35",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "PRONTO",
+      "pronto_em": "07:36",
+      "data_conclusao": "2026-11-01T11:36:52.040Z"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T11:22:43.345Z"
+  "ultima_atualizacao": "2026-11-01T11:36:52.238Z"
 }
