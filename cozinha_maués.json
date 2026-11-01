@@ -1,20 +1,5 @@
 {
   "pedidos_ativos": {
-    "JDP-1793548821175": {
-      "id": "JDP-1793548821175",
-      "cliente": "JDP_SISTEMAS",
-      "endereco": "Rua henrique magnanes bairro ramalho junior",
-      "status": "pendente",
-      "hora": "12:00",
-      "total": 31,
-      "itens": [
-        {
-          "nome": "x tudo",
-          "preco": 23,
-          "qtd": 1
-        }
-      ]
-    },
     "jdp-wm11p": {
       "id": "jdp-wm11p",
       "cliente": "edeilza brasil",
