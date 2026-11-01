@@ -13,9 +13,12 @@
         }
       ],
       "total": 25,
-      "status": "PRONTO",
+      "status": "SAIU_PARA_ENTREGA",
       "pronto_em": "07:11",
-      "data_conclusao": "2026-11-01T11:11:05.102Z"
+      "data_conclusao": "2026-11-01T11:11:05.102Z",
+      "motoboy_id": "MOTO_92984846059",
+      "motoboy_nome": "FAFA",
+      "motoboy_telefone": "92984846059"
     },
     "jdp-cttpx": {
       "id": "jdp-cttpx",
