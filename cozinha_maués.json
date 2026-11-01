@@ -1,28 +1,4 @@
 {
-  "pedidos_ativos": {
-    "jdp-s1d8e": {
-      "id": "jdp-s1d8e",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
-      "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
-      "hora": "10:21",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        },
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 48,
-      "status": "pendente"
-    }
-  },
+  "pedidos_ativos": {},
   "pedidos_concluidos": {}
 }
