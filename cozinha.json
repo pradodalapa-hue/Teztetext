@@ -54,6 +54,19 @@
       ],
       "total": 50,
       "status": "pendente"
+    },
+    "PED_1793512923861": {
+      "id": "PED_1793512923861",
+      "mesa": "Mesa / Chat Direct",
+      "hora": "02:02",
+      "itens": [
+        {
+          "nome": "Imagem Personalizada",
+          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
+        }
+      ],
+      "total": 10,
+      "status": "Pendente"
     }
   },
   "pedidos_concluidos": {
