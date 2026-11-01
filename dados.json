@@ -1,29 +1,9 @@
 {
-  "protocolo": "JDP_INDUSTRIAL_DATA_v3.0",
+  "protocolo": "JDP_INDUSTRIAL_DATA_v9.5",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "data_geracao": "2026-10-31T22:31:33.382Z",
-  "resumo_vendas": {
-    "total_transacoes": 1,
-    "total_itens_unicos": 1,
-    "valor_total_acumulado": 0
-  },
-  "itens_consolidados": [
-    {
-      "url_imagem": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
-      "nome_produto": "Foto Selecionada",
-      "quantidade_total": 1,
-      "valor_unitario": 0,
-      "subtotal": 0
-    }
-  ],
-  "historico_bruto": [
-    {
-      "id_transacao": "TX_1793485871229_831",
-      "url_foto": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg",
-      "nome_item": "Foto Selecionada",
-      "valor": 0,
-      "timestamp": "2026-10-31T22:31:11.229Z"
-    }
+  "atualizacao": "2026-11-01T00:01:43.872Z",
+  "itens_carrinho": [
+    "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
   ]
 }
