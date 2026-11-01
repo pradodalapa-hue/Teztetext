@@ -1,4 +1,23 @@
 {
-  "pedidos_ativos": {},
+  "pedidos_ativos": {
+    "jdp-fakg1": {
+      "id": "jdp-fakg1",
+      "cliente": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "09:52",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "pendente"
+    }
+  },
   "pedidos_concluidos": {}
 }
