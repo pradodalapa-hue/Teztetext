@@ -29,6 +29,21 @@
       ],
       "total": 23,
       "status": "pendente"
+    },
+    "jdp-j6jcc": {
+      "id": "jdp-j6jcc",
+      "cliente": "edeilza brasil",
+      "endereco": "rua bare taruma acu",
+      "hora": "02:42",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "pendente"
     }
   },
   "pedidos_concluidos": {
