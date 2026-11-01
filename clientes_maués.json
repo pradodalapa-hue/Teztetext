@@ -15,7 +15,7 @@
       "endereco": "centro",
       "cidade": "maués",
       "estado": "AM",
-      "atualizado_em": 1793555305722
+      "atualizado_em": 1793560157407
     }
   },
   "protocolo": "JDP_CLIENTES_CIDADE_v1.0",
@@ -24,6 +24,6 @@
     "nome": "JDP_SISTEMAS",
     "ultimo_pedido": "JDP-1793559896056",
     "endereco": "Rua henrique magnanes bairro ramalho junior",
-    "data": "01\/11\/2026 15:04"
+    "data": "01/11/2026 15:04"
   }
 }
