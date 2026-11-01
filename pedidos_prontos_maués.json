@@ -26,9 +26,13 @@
         }
       ],
       "total": 73,
-      "status": "PRONTO",
+      "status": "SAIU_PARA_ENTREGA",
       "pronto_em": "09:31",
-      "data_conclusao": "2026-11-01T13:31:47.872Z"
+      "data_conclusao": "2026-11-01T13:31:47.872Z",
+      "motoboy_id": "MOTO_92994776102",
+      "motoboy_nome": "JORGE",
+      "motoboy_telefone": "92994776102",
+      "cidade_base": "Maués"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
