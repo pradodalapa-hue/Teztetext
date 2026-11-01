@@ -1,20 +1,5 @@
 {
   "pedidos_ativos": {
-    "JDP-1793557876143": {
-      "id": "JDP-1793557876143",
-      "cliente": "JDP_SISTEMAS",
-      "endereco": "Rua henrique magnanes bairro ramalho junior",
-      "status": "pendente",
-      "hora": "14:31",
-      "total": 33,
-      "itens": [
-        {
-          "nome": "farofa",
-          "preco": 25,
-          "qtd": 1
-        }
-      ]
-    },
     "JDP-1793558772527": {
       "id": "JDP-1793558772527",
       "cliente": "JDP_SISTEMAS",
