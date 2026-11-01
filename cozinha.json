@@ -1,21 +1,5 @@
 {
-  "pedidos_ativos": {
-    "jdp-x3xhd": {
-      "id": "jdp-x3xhd",
-      "cliente": "edeilza brasil",
-      "endereco": "rua bare taruma acu",
-      "hora": "08:26",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        }
-      ],
-      "total": 25,
-      "status": "pendente"
-    }
-  },
+  "pedidos_ativos": {},
   "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
