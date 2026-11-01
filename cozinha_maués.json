@@ -14,21 +14,6 @@
           "qtd": 1
         }
       ]
-    },
-    "JDP-1793563009303": {
-      "id": "JDP-1793563009303",
-      "cliente": "JDP_SISTEMAS",
-      "endereco": "Rua henrique magnanes bairro ramalho junior",
-      "status": "pendente",
-      "hora": "15:56",
-      "total": 31,
-      "itens": [
-        {
-          "nome": "x tudo",
-          "preco": 23,
-          "qtd": 1
-        }
-      ]
     }
   },
   "pedidos_concluidos": {}
