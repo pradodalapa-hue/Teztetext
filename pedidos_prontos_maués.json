@@ -4,7 +4,7 @@
       "id": "JDP-1793548821175",
       "cliente": "JDP_SISTEMAS",
       "endereco": "Rua henrique magnanes bairro ramalho junior",
-      "status": "PRONTO",
+      "status": "SAIU_PARA_ENTREGA",
       "hora": "12:00",
       "total": 31,
       "itens": [
@@ -15,7 +15,12 @@
         }
       ],
       "pronto_em": "12:19",
-      "data_conclusao": "2026-11-01T16:19:37.284Z"
+      "data_conclusao": "2026-11-01T16:19:37.284Z",
+      "motoboy_id": "MOTO_929997999999",
+      "motoboy_nome": "FABRICIO",
+      "motoboy_telefone": "929997999999",
+      "cidade_base": "Maués",
+      "estado": "AM"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
