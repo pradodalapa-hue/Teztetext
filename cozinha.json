@@ -34,6 +34,22 @@
       ],
       "total": 50,
       "status": "pendente"
+    }
+  },
+  "pedidos_concluidos": {
+    "PED_1793498438996": {
+      "id": "PED_1793498438996",
+      "mesa": "Mesa / Realtime URL",
+      "hora": "22:00",
+      "itens": [
+        {
+          "nome": "Imagem Personalizada",
+          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
+        }
+      ],
+      "total": 10,
+      "status": "PRONTO",
+      "pronto_em": "00:51"
     },
     "jdp-l6vxg": {
       "id": "jdp-l6vxg",
@@ -53,36 +69,8 @@
         }
       ],
       "total": 50,
-      "status": "pendente"
-    },
-    "PED_1793512923861": {
-      "id": "PED_1793512923861",
-      "mesa": "Mesa / Chat Direct",
-      "hora": "02:02",
-      "itens": [
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        }
-      ],
-      "total": 10,
-      "status": "Pendente"
-    }
-  },
-  "pedidos_concluidos": {
-    "PED_1793498438996": {
-      "id": "PED_1793498438996",
-      "mesa": "Mesa / Realtime URL",
-      "hora": "22:00",
-      "itens": [
-        {
-          "nome": "Imagem Personalizada",
-          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
-        }
-      ],
-      "total": 10,
       "status": "PRONTO",
-      "pronto_em": "00:51"
+      "pronto_em": "02:02"
     }
   }
 }
