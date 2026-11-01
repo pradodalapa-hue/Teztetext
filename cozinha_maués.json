@@ -29,6 +29,34 @@
           "qtd": 1
         }
       ]
+    },
+    "jdp-0vd7r": {
+      "id": "jdp-0vd7r",
+      "cliente": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "15:09",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 73,
+      "status": "pendente"
     }
   },
   "pedidos_concluidos": {}
