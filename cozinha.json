@@ -1,20 +1,5 @@
 {
   "pedidos_ativos": {
-    "jdp-k0r4c": {
-      "id": "jdp-k0r4c",
-      "cliente": "JOSE DIVINO PRADO DA LAPA",
-      "endereco": "RUA BARE TARUMA AÇU",
-      "hora": "02:06",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 23,
-      "status": "pendente"
-    },
     "jdp-mb48k": {
       "id": "jdp-mb48k",
       "cliente": "edeilza brasil",
@@ -75,6 +60,22 @@
       "total": 10,
       "status": "PRONTO",
       "pronto_em": "00:51"
+    },
+    "jdp-k0r4c": {
+      "id": "jdp-k0r4c",
+      "cliente": "JOSE DIVINO PRADO DA LAPA",
+      "endereco": "RUA BARE TARUMA AÇU",
+      "hora": "02:06",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "PRONTO",
+      "pronto_em": "07:02"
     }
   }
 }
