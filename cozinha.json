@@ -1,1 +1,18 @@
-[]
+{
+  "pedidos_ativos": {
+    "PED_1793498433114": {
+      "id": "PED_1793498433114",
+      "mesa": "Mesa / Realtime URL",
+      "hora": "22:00",
+      "itens": [
+        {
+          "nome": "Imagem Personalizada",
+          "url": "https://raw.githubusercontent.com/pradodalapa-hue/fotos-industrial/main/img/jdp_1793468366398_1778753483774.jpg"
+        }
+      ],
+      "total": 10,
+      "status": "Pendente"
+    }
+  },
+  "pedidos_concluidos": {}
+}
