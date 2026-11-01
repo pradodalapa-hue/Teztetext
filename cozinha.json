@@ -1,35 +1,5 @@
 {
   "pedidos_ativos": {
-    "jdp-mb48k": {
-      "id": "jdp-mb48k",
-      "cliente": "edeilza brasil",
-      "endereco": "rua bare taruma acu",
-      "hora": "02:33",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 23,
-      "status": "pendente"
-    },
-    "jdp-j6jcc": {
-      "id": "jdp-j6jcc",
-      "cliente": "edeilza brasil",
-      "endereco": "rua bare taruma acu",
-      "hora": "02:42",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 23,
-      "status": "pendente"
-    },
     "jdp-j83t3": {
       "id": "jdp-j83t3",
       "cliente": "edeilza brasil",
@@ -66,6 +36,38 @@
       "cliente": "JOSE DIVINO PRADO DA LAPA",
       "endereco": "RUA BARE TARUMA AÇU",
       "hora": "02:06",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "PRONTO",
+      "pronto_em": "07:02"
+    },
+    "jdp-mb48k": {
+      "id": "jdp-mb48k",
+      "cliente": "edeilza brasil",
+      "endereco": "rua bare taruma acu",
+      "hora": "02:33",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "PRONTO",
+      "pronto_em": "07:02"
+    },
+    "jdp-j6jcc": {
+      "id": "jdp-j6jcc",
+      "cliente": "edeilza brasil",
+      "endereco": "rua bare taruma acu",
+      "hora": "02:42",
       "itens": [
         {
           "nome": "x tudo",
