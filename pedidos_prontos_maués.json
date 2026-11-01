@@ -54,36 +54,11 @@
       "pronto_em": "10:06",
       "data_conclusao": "2026-11-01T14:06:41.036Z"
     },
-    "jdp-s1d8e": {
-      "id": "jdp-s1d8e",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
-      "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
-      "hora": "10:21",
-      "itens": [
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        },
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        }
-      ],
-      "total": 48,
-      "status": "PRONTO",
-      "pronto_em": "10:22",
-      "data_conclusao": "2026-11-01T14:22:11.659Z"
-    },
     "JDP-1793547423856": {
       "id": "JDP-1793547423856",
       "cliente": "JDP_SISTEMAS",
       "endereco": "Rua henrique magnanes bairro ramalho junior",
-      "status": "SAIU_PARA_ENTREGA",
+      "status": "PRONTO",
       "hora": "11:37",
       "total": 31,
       "itens": [
@@ -94,12 +69,7 @@
         }
       ],
       "pronto_em": "11:45",
-      "data_conclusao": "2026-11-01T15:45:50.237Z",
-      "motoboy_id": "MOTO_929997999999",
-      "motoboy_nome": "FABRICIO",
-      "motoboy_telefone": "929997999999",
-      "cidade_base": "Maués",
-      "estado": "AM"
+      "data_conclusao": "2026-11-01T15:45:50.237Z"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
