@@ -29,6 +29,21 @@
           "qtd": 1
         }
       ]
+    },
+    "JDP-1793563853007": {
+      "id": "JDP-1793563853007",
+      "cliente": "JDP_SISTEMAS",
+      "endereco": "Novo Pedido - ID: #jdp-4udup\n\nCliente: edeilza brasil\nTelefone: 929974666134\nEndereço: centro\nCidade: MAUÉS \/ AM\n\nItens:\n  - 1x x tudo (R$ 23,00)\n\nTotal do Pedido: R$ 23,00\n\nPedido gerado via jdp supreme - confirmação industrial",
+      "status": "pendente",
+      "hora": "16:10",
+      "total": 30,
+      "itens": [
+        {
+          "nome": "farofa",
+          "preco": 25,
+          "qtd": 1
+        }
+      ]
     }
   },
   "pedidos_concluidos": {}
