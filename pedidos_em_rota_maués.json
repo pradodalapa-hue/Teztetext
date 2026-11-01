@@ -2,19 +2,19 @@
   "pedidos_em_rota": {
     "jdp-fakg1": {
       "id": "jdp-fakg1",
-      "latMotoboy": -3.3843283,
-      "lngMotoboy": -57.7170983,
+      "latMotoboy": -3.38431,
+      "lngMotoboy": -57.717105,
       "motoboy_id": "MOTO_929997999999",
       "motoboy_nome": "FABRICIO",
       "motoboy_telefone": "929997999999",
       "cidade": "Maués",
       "estado": "AM",
       "status": "EM_ROTA",
-      "atualizado_em": 1793545775204
+      "atualizado_em": 1793545776686
     }
   },
   "protocolo": "JDP_PEDIDOS_EM_ROTA_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T15:09:35.204Z"
+  "ultima_atualizacao": "2026-11-01T15:09:36.686Z"
 }
