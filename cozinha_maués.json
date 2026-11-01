@@ -61,7 +61,7 @@
     "JDP-1793560204603": {
       "id": "JDP-1793560204603",
       "cliente": "JDP_SISTEMAS",
-      "endereco": "Novo Pedido - ID: #jdp-0vd7r\n\nCliente: edeilza brasil\nTelefone: 929974666134\nEndereço: centro\nCidade: MAUÉS / AM\n\nItens:\n  - 1x farofa (R$ 25,00)\n  - 1x x tudo (R$ 23,00)\n  - 1x farofa (R$ 25,00)\n\nTotal do Pedido: R$ 73,00\n\nPedido gerado via jdp supreme - confirmação industrial",
+      "endereco": "Novo Pedido - ID: #jdp-0vd7r\n\nCliente: edeilza brasil\nTelefone: 929974666134\nEndereço: centro\nCidade: MAUÉS \/ AM\n\nItens:\n  - 1x farofa (R$ 25,00)\n  - 1x x tudo (R$ 23,00)\n  - 1x farofa (R$ 25,00)\n\nTotal do Pedido: R$ 73,00\n\nPedido gerado via jdp supreme - confirmação industrial",
       "status": "pendente",
       "hora": "15:10",
       "total": 30,
@@ -90,6 +90,21 @@
       ],
       "total": 23,
       "status": "pendente"
+    },
+    "JDP-1793561043065": {
+      "id": "JDP-1793561043065",
+      "cliente": "JDP_SISTEMAS",
+      "endereco": "centro",
+      "status": "pendente",
+      "hora": "15:24",
+      "total": 23,
+      "itens": [
+        {
+          "nome": "Pedido Personalizado App",
+          "preco": 23,
+          "qtd": 1
+        }
+      ]
     }
   },
   "pedidos_concluidos": {}
