@@ -1,0 +1,33 @@
+{
+  "pedidos_ativos": {
+    "jdp-5xpbl": {
+      "id": "jdp-5xpbl",
+      "cliente": "edeilza brasil",
+      "telefone": "92995314800",
+      "endereco": "rua henrique magnanes",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "09:19",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 73,
+      "status": "pendente"
+    }
+  },
+  "pedidos_concluidos": {}
+}
