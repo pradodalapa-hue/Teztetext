@@ -23,10 +23,40 @@
       "motoboy_nome": "JORGE",
       "motoboy_telefone": "92994776102",
       "cidade_base": "Maués"
+    },
+    "jdp-img1n": {
+      "id": "jdp-img1n",
+      "cliente": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "10:05",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        },
+        {
+          "nome": "x tudo",
+          "qtd": 2,
+          "preco": 23
+        }
+      ],
+      "total": 96,
+      "status": "PRONTO",
+      "pronto_em": "10:06",
+      "data_conclusao": "2026-11-01T14:06:41.036Z"
     }
   },
   "protocolo": "JDP_PEDIDOS_PRONTOS_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T13:54:09.172Z"
+  "ultima_atualizacao": "2026-11-01T14:06:41.225Z"
 }
