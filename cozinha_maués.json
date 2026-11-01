@@ -1,28 +1,4 @@
 {
-  "pedidos_ativos": {
-    "jdp-wm11p": {
-      "id": "jdp-wm11p",
-      "cliente": "edeilza brasil",
-      "telefone": "929974666134",
-      "endereco": "centro",
-      "cidade": "maués",
-      "estado": "AM",
-      "hora": "12:03",
-      "itens": [
-        {
-          "nome": "x tudo",
-          "qtd": 1,
-          "preco": 23
-        },
-        {
-          "nome": "farofa",
-          "qtd": 1,
-          "preco": 25
-        }
-      ],
-      "total": 48,
-      "status": "pendente"
-    }
-  },
+  "pedidos_ativos": {},
   "pedidos_concluidos": {}
 }
