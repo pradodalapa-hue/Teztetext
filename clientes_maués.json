@@ -15,7 +15,7 @@
       "endereco": "centro",
       "cidade": "maués",
       "estado": "AM",
-      "atualizado_em": 1793561562135
+      "atualizado_em": 1793561841241
     }
   },
   "protocolo": "JDP_CLIENTES_CIDADE_v1.0",
@@ -24,6 +24,6 @@
     "nome": "JDP_SISTEMAS",
     "ultimo_pedido": "#jdp-ukug5",
     "endereco": "centro",
-    "data": "01\/11\/2026 15:33"
+    "data": "01/11/2026 15:33"
   }
 }
