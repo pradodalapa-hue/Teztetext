@@ -27,6 +27,16 @@
       "senha": "160620",
       "status": "ONLINE",
       "criadoEm": 1793542174093
+    },
+    "MOTO_929997999999": {
+      "id": "MOTO_929997999999",
+      "nome": "FABRICIO",
+      "telefone": "929997999999",
+      "estado": "AM",
+      "cidade": "Maués",
+      "senha": "160620",
+      "status": "ONLINE",
+      "criadoEm": 1793543526974
     }
   },
   "protocolo": "JDP_MOTORISTAS_v1.0"
