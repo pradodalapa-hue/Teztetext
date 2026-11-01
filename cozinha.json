@@ -1,5 +1,21 @@
 {
-  "pedidos_ativos": {},
+  "pedidos_ativos": {
+    "jdp-j07x0": {
+      "id": "jdp-j07x0",
+      "cliente": "JOSE DIVINO PRADO DA LAPA",
+      "endereco": "RUA NOVA VENEZA TARUMA AÇU",
+      "hora": "01:48",
+      "itens": [
+        {
+          "nome": "farofa",
+          "qtd": 1,
+          "preco": 25
+        }
+      ],
+      "total": 25,
+      "status": "pendente"
+    }
+  },
   "pedidos_concluidos": {
     "PED_1793498438996": {
       "id": "PED_1793498438996",
