@@ -33,7 +33,7 @@
     "JDP-1793563853007": {
       "id": "JDP-1793563853007",
       "cliente": "JDP_SISTEMAS",
-      "endereco": "Novo Pedido - ID: #jdp-4udup\n\nCliente: edeilza brasil\nTelefone: 929974666134\nEndereço: centro\nCidade: MAUÉS \/ AM\n\nItens:\n  - 1x x tudo (R$ 23,00)\n\nTotal do Pedido: R$ 23,00\n\nPedido gerado via jdp supreme - confirmação industrial",
+      "endereco": "Novo Pedido - ID: #jdp-4udup\n\nCliente: edeilza brasil\nTelefone: 929974666134\nEndereço: centro\nCidade: MAUÉS / AM\n\nItens:\n  - 1x x tudo (R$ 23,00)\n\nTotal do Pedido: R$ 23,00\n\nPedido gerado via jdp supreme - confirmação industrial",
       "status": "pendente",
       "hora": "16:10",
       "total": 30,
@@ -44,6 +44,24 @@
           "qtd": 1
         }
       ]
+    },
+    "jdp-y9y18": {
+      "id": "jdp-y9y18",
+      "cliente": "edeilza brasil",
+      "telefone": "929974666134",
+      "endereco": "centro",
+      "cidade": "maués",
+      "estado": "AM",
+      "hora": "20:08",
+      "itens": [
+        {
+          "nome": "x tudo",
+          "qtd": 1,
+          "preco": 23
+        }
+      ],
+      "total": 23,
+      "status": "pendente"
     }
   },
   "pedidos_concluidos": {}
