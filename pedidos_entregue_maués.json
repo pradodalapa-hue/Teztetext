@@ -80,10 +80,33 @@
       "cidade": "Maués",
       "estado": "AM",
       "finalizado_em": 1793550967006
+    },
+    "JDP-1793563009303": {
+      "id": "JDP-1793563009303",
+      "cliente": "JDP_SISTEMAS",
+      "endereco": "Rua henrique magnanes bairro ramalho junior",
+      "status": "ENTREGUE",
+      "hora": "15:56",
+      "total": 31,
+      "itens": [
+        {
+          "nome": "x tudo",
+          "preco": 23,
+          "qtd": 1
+        }
+      ],
+      "pronto_em": "16:00",
+      "data_conclusao": "2026-11-01T20:00:54.512Z",
+      "motoboy_id": "MOTO_92994613161",
+      "motoboy_nome": "JUJU",
+      "motoboy_telefone": "92994613161",
+      "cidade": "Maués",
+      "estado": "AM",
+      "finalizado_em": 1793577927091
     }
   },
   "protocolo": "JDP_PEDIDOS_ENTREGUES_v1.0",
   "arquiteto": "JOSE DIVINO PRADO DA LAPA",
   "chave_mestra": "PRINCESA DIAMANTE",
-  "ultima_atualizacao": "2026-11-01T16:36:07.235Z"
+  "ultima_atualizacao": "2026-11-02T00:05:27.320Z"
 }
