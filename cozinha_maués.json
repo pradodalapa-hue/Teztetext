@@ -14,6 +14,21 @@
           "qtd": 1
         }
       ]
+    },
+    "JDP-1793666689608": {
+      "id": "JDP-1793666689608",
+      "cliente": "BETA",
+      "endereco": "Rua Henrique magnanes",
+      "status": "pendente",
+      "hora": "20:44",
+      "total": 33,
+      "itens": [
+        {
+          "nome": "farofa",
+          "preco": 25,
+          "qtd": 1
+        }
+      ]
     }
   },
   "pedidos_concluidos": {}
