@@ -29,6 +29,21 @@
           "qtd": 1
         }
       ]
+    },
+    "JDP-1793666837803": {
+      "id": "JDP-1793666837803",
+      "cliente": "JDP_SISTEMAS",
+      "endereco": "📷 🆔 ID DO PEDIDO: #JDP-DVDAW\n👤 CLIENTE: JOSE DIVINO PRADO DA LAPA\n📍 LOCAL: RUA PROFESSOR ERNANI SIMÃO, 1563\n🏙️ CIDADE: 1563\n\n✅ 1x COMBO 6\n\nTOTAL: R$ 91,00",
+      "status": "pendente",
+      "hora": "20:47",
+      "total": 8,
+      "itens": [
+        {
+          "nome": "",
+          "preco": 0,
+          "qtd": 1
+        }
+      ]
     }
   },
   "pedidos_concluidos": {}
